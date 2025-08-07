@@ -1,0 +1,63 @@
+---
+title: "Listen mit Name/Wert Assoziationen"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Es soll eine Liste erstellt werden, die Namen und Werte miteinander verbindet, ähnlich wie ein dictionary, hash oder lookup table in einer anderen Programmiersprache
+
+Die `list()` Funktion ermöglicht es, Elementen Namen zu geben:
+
+```{r}
+lst <- list(mid = 0.5, right = 0.841, far.right = 0.977)
+lst
+```
+
+## Lösung:
+
+Zwei Vektoren für Namen und Werte kann man zusammenführen, indem man zunächst eine leere Liste erstellt und diese dann mit den Vektoren füllt:
+
+```{r}
+values <- c(1, 2, 3)
+names <- c("a", "b", "c")
+
+lst <- list()
+lst[names] <- values
+lst
+```
+
+### Oder direkt
+
+Man kann die Werte auch direkt den Namen hinzufügen, wenn man die Liste erstellt:
+
+```{r}
+lst <- list(
+  far.left = -2,
+  left = -1,
+  mid = 0,
+  right = 1,
+  far.right = 2
+)
+lst
+```
+
+### Oder so:
+
+```{r}
+values <- -2:2
+names <- c("far.left", "left", "mid", "right", "far.right")
+lst <- list()
+lst[names] <- values
+lst
+```
+
+### Nutzung:
+
+Wenn die Assoziation erstellt ist, kann die Liste ganz einfach Namen in Werte übersetzen:
+
+```{r}
+cat("Die linke Grenze ist", lst[["far.left"]], "\n")
+```

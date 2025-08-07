@@ -1,0 +1,296 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Willkommen zu meinem R Wiki",
+    "section": "",
+    "text": "Hier sammle ich mein R-Wissen…"
+  },
+  {
+    "objectID": "index.html#überblick",
+    "href": "index.html#überblick",
+    "title": "Willkommen zu meinem R Wiki",
+    "section": "",
+    "text": "Hier sammle ich mein R-Wissen…"
+  },
+  {
+    "objectID": "index.html#inhalte",
+    "href": "index.html#inhalte",
+    "title": "Willkommen zu meinem R Wiki",
+    "section": "Inhalte",
+    "text": "Inhalte\n\nDatenstrukturen in R\nDaten Transformieren\nStrings und Datum\nWahrscheinlichkeit\nStatistik Allgemein\nGrafiken\nLineare Regression und ANOVA\nNützliche Tricks\nJenseits von Grundlagenstatistik\nZeitreihenanalyse\nEinfaches Programmieren\nR Markdown und Veröffentlichen"
+  },
+  {
+    "objectID": "5_DataStructures/9.2_dataFrameFromRows.html",
+    "href": "5_DataStructures/9.2_dataFrameFromRows.html",
+    "title": "Data Frame aus Reihendaten",
+    "section": "",
+    "text": "Daten sind in Reihen / Fällen organisiert und sollen als Data Frame zusammengeführt werden"
+  },
+  {
+    "objectID": "5_DataStructures/9.2_dataFrameFromRows.html#anwendungsfall",
+    "href": "5_DataStructures/9.2_dataFrameFromRows.html#anwendungsfall",
+    "title": "Data Frame aus Reihendaten",
+    "section": "",
+    "text": "Daten sind in Reihen / Fällen organisiert und sollen als Data Frame zusammengeführt werden"
+  },
+  {
+    "objectID": "5_DataStructures/9.2_dataFrameFromRows.html#lösung",
+    "href": "5_DataStructures/9.2_dataFrameFromRows.html#lösung",
+    "title": "Data Frame aus Reihendaten",
+    "section": "Lösung",
+    "text": "Lösung\n\nSpeichere jede Reihe in einen 1-Reihen Data Frame.\nNutze rbind() aus dem Paket dplyr, um die Reihen zusammenzuführen.\n\n\nlibrary(dplyr)\n\n\nAttache Paket: 'dplyr'\n\n\nDie folgenden Objekte sind maskiert von 'package:stats':\n\n    filter, lag\n\n\nDie folgenden Objekte sind maskiert von 'package:base':\n\n    intersect, setdiff, setequal, union\n\nr1 &lt;- data.frame(a = 1, b = 2, c = \"X\")\nr2 &lt;- data.frame(a = 3, b = 4, c = \"Y\")\nr3 &lt;- data.frame(a = 5, b = 6, c = \"Z\")\n\nrbind(r1, r2, r3)\n\n  a b c\n1 1 2 X\n2 3 4 Y\n3 5 6 Z\n\n\n\nReihen in einer Liste\n\nBei einer großen Anzahl von Reihen sind diese oft in Listen gespeichert.\nNutze bind_rows() aus dplyr.\n\n\nlist.of.rows &lt;- list(r1, r2, r3)\nbind_rows(list.of.rows)\n\n  a b c\n1 1 2 X\n2 3 4 Y\n3 5 6 Z\n\n\n\n\nJede Reihe in einer Liste\n\nl1 &lt;- list(a = 1, b = 2, c = \"X\")\nl2 &lt;- list(a = 3, b = 4, c = \"Y\")\nl3 &lt;- list(a = 5, b = 6, c = \"Z\")\nlist.of.lists &lt;- list(l1, l2, l3)\n\nbind_rows(list.of.lists)\n\n# A tibble: 3 × 3\n      a     b c    \n  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;\n1     1     2 X    \n2     3     4 Y    \n3     5     6 Z"
+  },
+  {
+    "objectID": "5_DataStructures/2.5_listRemoveCondition.html",
+    "href": "5_DataStructures/2.5_listRemoveCondition.html",
+    "title": "Listenelemente nach Bedingung entfernen",
+    "section": "",
+    "text": "Es sollen Elemente, die eine bestimmte Bedingung erfüllen, aus einer Liste entfernt werden.\nZ. B. Werte, die undefiniert oder negativ sind oder unterhalb eines bestimmten Schwellenwertes liegen.\n\n\nlst &lt;- list(NA, 0, NA, 1, 2)"
+  },
+  {
+    "objectID": "5_DataStructures/2.5_listRemoveCondition.html#anwendungsfall",
+    "href": "5_DataStructures/2.5_listRemoveCondition.html#anwendungsfall",
+    "title": "Listenelemente nach Bedingung entfernen",
+    "section": "",
+    "text": "Es sollen Elemente, die eine bestimmte Bedingung erfüllen, aus einer Liste entfernt werden.\nZ. B. Werte, die undefiniert oder negativ sind oder unterhalb eines bestimmten Schwellenwertes liegen.\n\n\nlst &lt;- list(NA, 0, NA, 1, 2)"
+  },
+  {
+    "objectID": "5_DataStructures/2.5_listRemoveCondition.html#lösung",
+    "href": "5_DataStructures/2.5_listRemoveCondition.html#lösung",
+    "title": "Listenelemente nach Bedingung entfernen",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nAnwenden der discard() Funktion aus dem purrr Paket.\nWerte, die dem Kriterium entsprechen, werden entfernt.\n\n\nlibrary(purrr)\n\nlst |&gt;\n  discard(is.na)\n\n[[1]]\n[1] 0\n\n[[2]]\n[1] 1\n\n[[3]]\n[1] 2\n\n\n\nEntfernen von character strings:\n\nlst &lt;- list(3, \"dog\", 2, \"cat\", 1)\nlst |&gt;\n  discard(is.character)\n\n[[1]]\n[1] 3\n\n[[2]]\n[1] 2\n\n[[3]]\n[1] 1\n\n\n\n\nEine eigene Bedingung definieren:\n\nis_na_or_null &lt;- function(x) {\n  is.na(x) || is.null(x)\n}\n\nlst &lt;- list(1, NA, 2, NULL, 3)\nlst |&gt;\n  discard(is_na_or_null)\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 2\n\n[[3]]\n[1] 3\n\n\n\n\nKomplexe Objekte\n\nListen können komplexe Objekte enthalten, zum Beispiel lineare Modelle, die mit der lm() Funktion erstellt worden sind:\n\n\nmods &lt;- list(lm(x ~ y1),\n             lm(x ~ y2),\n             lm(x ~ y3))\n\n\nMit einer Bedingung können Modelle identifiziert werden, deren \\(R^2\\) kleiner a.s 0.7 sind, danach können diese Modelle mit der discard() Funktion entfernt werden:\n\n\nfilter_r2 &lt;- function(model) {\n  summary(model)$r.squared &lt; 0.7\n}\n\nmods |&gt;\n  discard(filter_r2)\n\n\n💫 Die Gegenfunktion von discard() ist keep().\n💫 In keep() werden Elemente angegeben, die in der Liste bleiben sollen."
+  },
+  {
+    "objectID": "5_DataStructures/2.3_ListVector.html",
+    "href": "5_DataStructures/2.3_ListVector.html",
+    "title": "Liste in Vektor umwandeln",
+    "section": "",
+    "text": "Viele statistische Funktionen lassen sich auf Vektoren, aber nicht auf Listen anwenden.\n\n\n\n\niq.scores &lt;- list(100, 120, 103, 80, 99)\nmean(iq.scores)\n\n[1] NA"
+  },
+  {
+    "objectID": "5_DataStructures/2.3_ListVector.html#anwendungsfall",
+    "href": "5_DataStructures/2.3_ListVector.html#anwendungsfall",
+    "title": "Liste in Vektor umwandeln",
+    "section": "",
+    "text": "Viele statistische Funktionen lassen sich auf Vektoren, aber nicht auf Listen anwenden.\n\n\n\n\niq.scores &lt;- list(100, 120, 103, 80, 99)\nmean(iq.scores)\n\n[1] NA"
+  },
+  {
+    "objectID": "5_DataStructures/2.3_ListVector.html#lösung",
+    "href": "5_DataStructures/2.3_ListVector.html#lösung",
+    "title": "Liste in Vektor umwandeln",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nunlist Funktion anwenden\n\n\nmean(unlist(iq.scores))\n\n[1] 100.4\n\n\n\nWeiteres Beispiel\n\ncat(iq.scores, \"\\n\")\n\nError in cat(iq.scores, \"\\n\"): Argument 1 (Typ 'list') wird nicht von 'cat' verstanden\n\n\n\ncat(\"IQ-Scores:\", unlist(iq.scores), \"\\n\")\n\nIQ-Scores: 100 120 103 80 99"
+  },
+  {
+    "objectID": "5_DataStructures/2.1_nameWertListe.html",
+    "href": "5_DataStructures/2.1_nameWertListe.html",
+    "title": "Listen mit Name/Wert Assoziationen",
+    "section": "",
+    "text": "Es soll eine Liste erstellt werden, die Namen und Werte miteinander verbindet, ähnlich wie ein dictionary, hash oder lookup table in einer anderen Programmiersprache\n\nDie list() Funktion ermöglicht es, Elementen Namen zu geben:\n\nlst &lt;- list(mid = 0.5, right = 0.841, far.right = 0.977)\nlst\n\n$mid\n[1] 0.5\n\n$right\n[1] 0.841\n\n$far.right\n[1] 0.977"
+  },
+  {
+    "objectID": "5_DataStructures/2.1_nameWertListe.html#anwendungsfall",
+    "href": "5_DataStructures/2.1_nameWertListe.html#anwendungsfall",
+    "title": "Listen mit Name/Wert Assoziationen",
+    "section": "",
+    "text": "Es soll eine Liste erstellt werden, die Namen und Werte miteinander verbindet, ähnlich wie ein dictionary, hash oder lookup table in einer anderen Programmiersprache\n\nDie list() Funktion ermöglicht es, Elementen Namen zu geben:\n\nlst &lt;- list(mid = 0.5, right = 0.841, far.right = 0.977)\nlst\n\n$mid\n[1] 0.5\n\n$right\n[1] 0.841\n\n$far.right\n[1] 0.977"
+  },
+  {
+    "objectID": "5_DataStructures/2.1_nameWertListe.html#lösung",
+    "href": "5_DataStructures/2.1_nameWertListe.html#lösung",
+    "title": "Listen mit Name/Wert Assoziationen",
+    "section": "Lösung:",
+    "text": "Lösung:\nZwei Vektoren für Namen und Werte kann man zusammenführen, indem man zunächst eine leere Liste erstellt und diese dann mit den Vektoren füllt:\n\nvalues &lt;- c(1, 2, 3)\nnames &lt;- c(\"a\", \"b\", \"c\")\n\nlst &lt;- list()\nlst[names] &lt;- values\nlst\n\n$a\n[1] 1\n\n$b\n[1] 2\n\n$c\n[1] 3\n\n\n\nOder direkt\nMan kann die Werte auch direkt den Namen hinzufügen, wenn man die Liste erstellt:\n\nlst &lt;- list(\n  far.left = -2,\n  left = -1,\n  mid = 0,\n  right = 1,\n  far.right = 2\n)\nlst\n\n$far.left\n[1] -2\n\n$left\n[1] -1\n\n$mid\n[1] 0\n\n$right\n[1] 1\n\n$far.right\n[1] 2\n\n\n\n\nOder so:\n\nvalues &lt;- -2:2\nnames &lt;- c(\"far.left\", \"left\", \"mid\", \"right\", \"far.right\")\nlst &lt;- list()\nlst[names] &lt;- values\nlst\n\n$far.left\n[1] -2\n\n$left\n[1] -1\n\n$mid\n[1] 0\n\n$right\n[1] 1\n\n$far.right\n[1] 2\n\n\n\n\nNutzung:\nWenn die Assoziation erstellt ist, kann die Liste ganz einfach Namen in Werte übersetzen:\n\ncat(\"Die linke Grenze ist\", lst[[\"far.left\"]], \"\\n\")\n\nDie linke Grenze ist -2"
+  },
+  {
+    "objectID": "5_DataStructures/1.1_vectorfactor.html",
+    "href": "5_DataStructures/1.1_vectorfactor.html",
+    "title": "Mehrere Vektoren zu Vektor und Faktor kombinieren",
+    "section": "",
+    "text": "Man hat mehrere Datengruppen, die jeweils aus einem Vektor bestehen.\nDie Vektoren sollen kombiniert werden, sodass ein langer Vektor entsteht und gleichzeitig eine Faktorvariable, die die Herkunft für jeden Wert markiert.\nz.B. wurden verschiedene Gruppen getrennt voneinander befragt und jetzt sollen Gruppenunterschiede berechnet werden."
+  },
+  {
+    "objectID": "5_DataStructures/1.1_vectorfactor.html#anwendungsfall",
+    "href": "5_DataStructures/1.1_vectorfactor.html#anwendungsfall",
+    "title": "Mehrere Vektoren zu Vektor und Faktor kombinieren",
+    "section": "",
+    "text": "Man hat mehrere Datengruppen, die jeweils aus einem Vektor bestehen.\nDie Vektoren sollen kombiniert werden, sodass ein langer Vektor entsteht und gleichzeitig eine Faktorvariable, die die Herkunft für jeden Wert markiert.\nz.B. wurden verschiedene Gruppen getrennt voneinander befragt und jetzt sollen Gruppenunterschiede berechnet werden."
+  },
+  {
+    "objectID": "5_DataStructures/1.1_vectorfactor.html#lösung",
+    "href": "5_DataStructures/1.1_vectorfactor.html#lösung",
+    "title": "Mehrere Vektoren zu Vektor und Faktor kombinieren",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nEine Liste erstellen, die die Vektoren enthält\nMit der stack-Funktion kann die Liste in einen Data Frame mit 2 Spalten kombiniert werden:\n\n\nv1 &lt;- c(11:15)\nv2 &lt;- c(21:25)\nv3 &lt;- c(31:35)\n\ncomb &lt;- stack(list(v1 = v1, v2 = v2, v3 = v3)) # 3 Faktoren kombinieren\ncomb\n\n   values ind\n1      11  v1\n2      12  v1\n3      13  v1\n4      14  v1\n5      15  v1\n6      21  v2\n7      22  v2\n8      23  v2\n9      24  v2\n10     25  v2\n11     31  v3\n12     32  v3\n13     33  v3\n14     34  v3\n15     35  v3"
+  },
+  {
+    "objectID": "5_DataStructures/1.1_vectorfactor.html#anova",
+    "href": "5_DataStructures/1.1_vectorfactor.html#anova",
+    "title": "Mehrere Vektoren zu Vektor und Faktor kombinieren",
+    "section": "ANOVA",
+    "text": "ANOVA\n\nJetzt können Gruppenunterschiede mittels einer ANOVA untersucht werden:\n\n\naov.comb &lt;- aov(values ~ ind, data = comb)\nsummary(aov.comb)\n\n            Df Sum Sq Mean Sq F value   Pr(&gt;F)    \nind          2   1000   500.0     200 6.11e-10 ***\nResiduals   12     30     2.5                     \n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html",
+    "href": "5_DataStructures/1_DataStructures.html",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Vektoren sind die grundlegendste Datenstruktur in R. Sie enthalten eine Sequenz von Elementen des gleichen Datentyps.\nVerwendung:\n\n# Numerische Vektoren\nzahlen &lt;- c(1, 2, 3, 4, 5)\ndecimal &lt;- c(1.5, 2.7, 3.14)\n\n# Character Vektoren\nnamen &lt;- c(\"Anna\", \"Bob\", \"Charlie\")\n\n# Logische Vektoren\nwahrheit &lt;- c(TRUE, FALSE, TRUE)\n\n# Zugriff auf Elemente\nzahlen[1]      # Erstes Element\n\n[1] 1\n\nzahlen[1:3]    # Erste drei Elemente\n\n[1] 1 2 3\n\n\nWeiterlesen: Vektoren zu Vektor und Faktor kombinieren\n\n\n\nDefinition: Listen können Elemente verschiedener Datentypen enthalten und sind rekursiv (können andere Listen enthalten).\nVerwendung:\n\n# Liste erstellen\nmeine_liste &lt;- list(\n  zahlen = c(1, 2, 3),\n  text = \"Hallo Welt\",\n  logik = TRUE,\n  matrix = matrix(1:6, nrow = 2)\n)\n\n# Zugriff auf Listenelemente\nmeine_liste$zahlen      # Mit $\n\n[1] 1 2 3\n\nmeine_liste[[1]]        # Mit Index\n\n[1] 1 2 3\n\nmeine_liste[[\"zahlen\"]] # Mit Namen\n\n[1] 1 2 3\n\n\nWeiterlesen:\n\nListen mit Name/Wert-Assoziationen\nElement aus Liste entfernen\nListe in Vektor umwandeln\nNull Elemente aus einer Liste entfernen\nListenelemente nach einer Bedingung entfernen\n\n\n\n\nDefinition: Mode beschreibt den grundlegenden Typ der Daten, die in einem Objekt gespeichert sind.\nVerwendung:\n\n# Verschiedene Modi\nmode(c(1, 2, 3))        # \"numeric\"\n\n[1] \"numeric\"\n\nmode(c(\"a\", \"b\"))       # \"character\"\n\n[1] \"character\"\n\nmode(c(TRUE, FALSE))    # \"logical\"\n\n[1] \"logical\"\n\nmode(list(1, 2, 3))     # \"list\"\n\n[1] \"list\"\n\n# Mode prüfen\nis.numeric(c(1, 2, 3))  # TRUE\n\n[1] TRUE\n\nis.character(\"text\")    # TRUE\n\n[1] TRUE\n\n\n\n\n\nDefinition: Class ist ein Attribut, das die objektorientierte Struktur eines Objekts definiert und bestimmt, wie Funktionen damit umgehen.\nVerwendung:\n\n# Class bestimmen\nx &lt;- c(1, 2, 3)\nclass(x)                # \"numeric\"\n\n[1] \"numeric\"\n\n# Class setzen\nclass(x) &lt;- \"meine_klasse\"\nclass(x)                # \"meine_klasse\"\n\n[1] \"meine_klasse\"\n\n# Für verschiedene Objekte\nclass(data.frame())     # \"data.frame\"\n\n[1] \"data.frame\"\n\nclass(matrix(1:4, 2))   # \"matrix\" \"array\"\n\n[1] \"matrix\" \"array\" \n\n\n\n\n\nDefinition: Scalare sind einzelne Werte (technisch gesehen Vektoren der Länge 1 in R).\nVerwendung:\n\n# Verschiedene Scalar-Typen\nzahl &lt;- 42\ntext &lt;- \"Einzelwort\"\nwahrheit &lt;- TRUE\n\n# Prüfung auf Länge\nlength(zahl)    # 1\n\n[1] 1\n\nis.vector(zahl) # TRUE\n\n[1] TRUE\n\n\n\n\n\nDefinition: Matrices sind zweidimensionale Arrays mit Elementen des gleichen Datentyps, organisiert in Zeilen und Spalten.\nVerwendung:\n\n# Matrix erstellen\nmat1 &lt;- matrix(1:12, nrow = 3, ncol = 4)\nmat2 &lt;- matrix(1:12, nrow = 3, byrow = TRUE)\n\n# Mit Zeilen- und Spaltennamen\ndimnames(mat1) &lt;- list(\n  c(\"Zeile1\", \"Zeile2\", \"Zeile3\"),\n  c(\"Sp1\", \"Sp2\", \"Sp3\", \"Sp4\")\n)\n\n# Zugriff auf Elemente\nmat1[1, 2]          # Element in Zeile 1, Spalte 2\n\n[1] 4\n\nmat1[1, ]           # Erste Zeile\n\nSp1 Sp2 Sp3 Sp4 \n  1   4   7  10 \n\nmat1[, 2]           # Zweite Spalte\n\nZeile1 Zeile2 Zeile3 \n     4      5      6 \n\n\n\n\n\nDefinition: Arrays sind mehrdimensionale Verallgemeinerungen von Matrices mit mehr als zwei Dimensionen.\nVerwendung:\n\n# 3-dimensionales Array\narr &lt;- array(1:24, dim = c(3, 4, 2))\n\n# Mit Dimensionsnamen\ndimnames(arr) &lt;- list(\n  Zeilen = c(\"Z1\", \"Z2\", \"Z3\"),\n  Spalten = c(\"S1\", \"S2\", \"S3\", \"S4\"),\n  Schichten = c(\"Schicht1\", \"Schicht2\")\n)\n\n# Zugriff auf Elemente\narr[1, 2, 1]        # Spezifisches Element\n\n[1] 4\n\narr[, , 1]          # Erste Schicht\n\n      Spalten\nZeilen S1 S2 S3 S4\n    Z1  1  4  7 10\n    Z2  2  5  8 11\n    Z3  3  6  9 12\n\n\n\n\n\nDefinition: Factors repräsentieren kategoriale Daten mit vordefinierten Levels (Kategorien).\nVerwendung:\n\n# Factor erstellen\ngeschlecht &lt;- factor(c(\"m\", \"w\", \"w\", \"m\", \"m\"))\nlevels(geschlecht)  # Zeigt Kategorien\n\n[1] \"m\" \"w\"\n\n# Mit benutzerdefinierten Levels\nnoten &lt;- factor(\n  c(\"gut\", \"schlecht\", \"mittel\", \"gut\"),\n  levels = c(\"schlecht\", \"mittel\", \"gut\"),\n  ordered = TRUE\n)\n\n# Factor-Eigenschaften\nis.factor(geschlecht)   # TRUE\n\n[1] TRUE\n\nnlevels(geschlecht)     # Anzahl der Levels\n\n[1] 2\n\ntable(geschlecht)       # Häufigkeitstabelle\n\ngeschlecht\nm w \n3 2 \n\n\n\n\n\nDefinition: Data Frames sind zweidimensionale Strukturen, die Spalten verschiedener Datentypen enthalten können (wie Tabellen in Datenbanken).\nVerwendung:\n\n# Data Frame erstellen\ndf &lt;- data.frame(\n  Name = c(\"Anna\", \"Bob\", \"Charlie\"),\n  Alter = c(25, 30, 35),\n  Verheiratet = c(TRUE, FALSE, TRUE),\n  stringsAsFactors = FALSE\n)\n\n# Zugriff auf Daten\ndf$Name             # Spalte über Namen\n\n[1] \"Anna\"    \"Bob\"     \"Charlie\"\n\ndf[1, ]             # Erste Zeile\n\n  Name Alter Verheiratet\n1 Anna    25        TRUE\n\ndf[, \"Alter\"]       # Spalte über Namen\n\n[1] 25 30 35\n\ndf[df$Alter &gt; 28, ] # Bedingte Auswahl\n\n     Name Alter Verheiratet\n2     Bob    30       FALSE\n3 Charlie    35        TRUE\n\n# Informationen über Data Frame\nstr(df)             # Struktur anzeigen\n\n'data.frame':   3 obs. of  3 variables:\n $ Name       : chr  \"Anna\" \"Bob\" \"Charlie\"\n $ Alter      : num  25 30 35\n $ Verheiratet: logi  TRUE FALSE TRUE\n\nsummary(df)         # Zusammenfassung\n\n     Name               Alter      Verheiratet    \n Length:3           Min.   :25.0   Mode :logical  \n Class :character   1st Qu.:27.5   FALSE:1        \n Mode  :character   Median :30.0   TRUE :2        \n                    Mean   :30.0                  \n                    3rd Qu.:32.5                  \n                    Max.   :35.0                  \n\n\nWeiterlesen:\n\nData Frame aus Spaltendaten\nData Frame aus Reihendaten\nReihen an Data Frame anfügen\n\n\n\n\nDefinition: Tibbles sind eine moderne Variante der Data Frames aus dem tidyverse-Paket, mit verbessertem Verhalten und besserer Ausgabe.\nVerwendung:\n\n# Tibble erstellen (benötigt tibble-Paket)\nlibrary(tibble)\n\ntbl &lt;- tibble(\n  Name = c(\"Anna\", \"Bob\", \"Charlie\"),\n  Alter = c(25, 30, 35),\n  Verheiratet = c(TRUE, FALSE, TRUE)\n)\n\n# Oder aus Data Frame konvertieren\ntbl2 &lt;- as_tibble(df)\n\n# Vorteile von Tibbles:\n# - Bessere Ausgabe (zeigt nur erste 10 Zeilen)\n# - Warnt bei problematischen Operationen\n# - Behält Datentypen besser bei\n# - Unterstützt unkonventionelle Spaltennamen\n\n# Zugriff funktioniert wie bei Data Frames\ntbl$Name\n\n[1] \"Anna\"    \"Bob\"     \"Charlie\"\n\ntbl[1, ]\n\n# A tibble: 1 × 3\n  Name  Alter Verheiratet\n  &lt;chr&gt; &lt;dbl&gt; &lt;lgl&gt;      \n1 Anna     25 TRUE       \n\n\n\n\n\n\nVektoren sind die Basis aller anderen Strukturen\nListen können verschiedene Datentypen kombinieren\nMatrices und Arrays sind für numerische Berechnungen optimiert\nFactors behandeln kategoriale Daten effizient\nData Frames sind ideal für gemischte Datentypen in Tabellenform\nTibbles bieten eine verbesserte Version der Data Frames\nMode und Class beschreiben die Eigenschaften aller Objekte\n\n\n\n\n\nVerwende Vektoren für homogene Datensequenzen\nVerwende Listen für heterogene Datensammlungen\nVerwende Matrices für numerische 2D-Berechnungen\nVerwende Arrays für mehrdimensionale numerische Daten\nVerwende Factors für kategoriale Variablen\nVerwende Data Frames für tabellarische Daten mit gemischten Typen\nVerwende Tibbles wenn du mit dem tidyverse arbeitest"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#vektoren-vectors",
+    "href": "5_DataStructures/1_DataStructures.html#vektoren-vectors",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Vektoren sind die grundlegendste Datenstruktur in R. Sie enthalten eine Sequenz von Elementen des gleichen Datentyps.\nVerwendung:\n\n# Numerische Vektoren\nzahlen &lt;- c(1, 2, 3, 4, 5)\ndecimal &lt;- c(1.5, 2.7, 3.14)\n\n# Character Vektoren\nnamen &lt;- c(\"Anna\", \"Bob\", \"Charlie\")\n\n# Logische Vektoren\nwahrheit &lt;- c(TRUE, FALSE, TRUE)\n\n# Zugriff auf Elemente\nzahlen[1]      # Erstes Element\n\n[1] 1\n\nzahlen[1:3]    # Erste drei Elemente\n\n[1] 1 2 3\n\n\nWeiterlesen: Vektoren zu Vektor und Faktor kombinieren"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#listen-lists",
+    "href": "5_DataStructures/1_DataStructures.html#listen-lists",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Listen können Elemente verschiedener Datentypen enthalten und sind rekursiv (können andere Listen enthalten).\nVerwendung:\n\n# Liste erstellen\nmeine_liste &lt;- list(\n  zahlen = c(1, 2, 3),\n  text = \"Hallo Welt\",\n  logik = TRUE,\n  matrix = matrix(1:6, nrow = 2)\n)\n\n# Zugriff auf Listenelemente\nmeine_liste$zahlen      # Mit $\n\n[1] 1 2 3\n\nmeine_liste[[1]]        # Mit Index\n\n[1] 1 2 3\n\nmeine_liste[[\"zahlen\"]] # Mit Namen\n\n[1] 1 2 3\n\n\nWeiterlesen:\n\nListen mit Name/Wert-Assoziationen\nElement aus Liste entfernen\nListe in Vektor umwandeln\nNull Elemente aus einer Liste entfernen\nListenelemente nach einer Bedingung entfernen"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#mode",
+    "href": "5_DataStructures/1_DataStructures.html#mode",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Mode beschreibt den grundlegenden Typ der Daten, die in einem Objekt gespeichert sind.\nVerwendung:\n\n# Verschiedene Modi\nmode(c(1, 2, 3))        # \"numeric\"\n\n[1] \"numeric\"\n\nmode(c(\"a\", \"b\"))       # \"character\"\n\n[1] \"character\"\n\nmode(c(TRUE, FALSE))    # \"logical\"\n\n[1] \"logical\"\n\nmode(list(1, 2, 3))     # \"list\"\n\n[1] \"list\"\n\n# Mode prüfen\nis.numeric(c(1, 2, 3))  # TRUE\n\n[1] TRUE\n\nis.character(\"text\")    # TRUE\n\n[1] TRUE"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#class",
+    "href": "5_DataStructures/1_DataStructures.html#class",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Class ist ein Attribut, das die objektorientierte Struktur eines Objekts definiert und bestimmt, wie Funktionen damit umgehen.\nVerwendung:\n\n# Class bestimmen\nx &lt;- c(1, 2, 3)\nclass(x)                # \"numeric\"\n\n[1] \"numeric\"\n\n# Class setzen\nclass(x) &lt;- \"meine_klasse\"\nclass(x)                # \"meine_klasse\"\n\n[1] \"meine_klasse\"\n\n# Für verschiedene Objekte\nclass(data.frame())     # \"data.frame\"\n\n[1] \"data.frame\"\n\nclass(matrix(1:4, 2))   # \"matrix\" \"array\"\n\n[1] \"matrix\" \"array\""
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#scalare",
+    "href": "5_DataStructures/1_DataStructures.html#scalare",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Scalare sind einzelne Werte (technisch gesehen Vektoren der Länge 1 in R).\nVerwendung:\n\n# Verschiedene Scalar-Typen\nzahl &lt;- 42\ntext &lt;- \"Einzelwort\"\nwahrheit &lt;- TRUE\n\n# Prüfung auf Länge\nlength(zahl)    # 1\n\n[1] 1\n\nis.vector(zahl) # TRUE\n\n[1] TRUE"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#matrices",
+    "href": "5_DataStructures/1_DataStructures.html#matrices",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Matrices sind zweidimensionale Arrays mit Elementen des gleichen Datentyps, organisiert in Zeilen und Spalten.\nVerwendung:\n\n# Matrix erstellen\nmat1 &lt;- matrix(1:12, nrow = 3, ncol = 4)\nmat2 &lt;- matrix(1:12, nrow = 3, byrow = TRUE)\n\n# Mit Zeilen- und Spaltennamen\ndimnames(mat1) &lt;- list(\n  c(\"Zeile1\", \"Zeile2\", \"Zeile3\"),\n  c(\"Sp1\", \"Sp2\", \"Sp3\", \"Sp4\")\n)\n\n# Zugriff auf Elemente\nmat1[1, 2]          # Element in Zeile 1, Spalte 2\n\n[1] 4\n\nmat1[1, ]           # Erste Zeile\n\nSp1 Sp2 Sp3 Sp4 \n  1   4   7  10 \n\nmat1[, 2]           # Zweite Spalte\n\nZeile1 Zeile2 Zeile3 \n     4      5      6"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#arrays",
+    "href": "5_DataStructures/1_DataStructures.html#arrays",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Arrays sind mehrdimensionale Verallgemeinerungen von Matrices mit mehr als zwei Dimensionen.\nVerwendung:\n\n# 3-dimensionales Array\narr &lt;- array(1:24, dim = c(3, 4, 2))\n\n# Mit Dimensionsnamen\ndimnames(arr) &lt;- list(\n  Zeilen = c(\"Z1\", \"Z2\", \"Z3\"),\n  Spalten = c(\"S1\", \"S2\", \"S3\", \"S4\"),\n  Schichten = c(\"Schicht1\", \"Schicht2\")\n)\n\n# Zugriff auf Elemente\narr[1, 2, 1]        # Spezifisches Element\n\n[1] 4\n\narr[, , 1]          # Erste Schicht\n\n      Spalten\nZeilen S1 S2 S3 S4\n    Z1  1  4  7 10\n    Z2  2  5  8 11\n    Z3  3  6  9 12"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#factors",
+    "href": "5_DataStructures/1_DataStructures.html#factors",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Factors repräsentieren kategoriale Daten mit vordefinierten Levels (Kategorien).\nVerwendung:\n\n# Factor erstellen\ngeschlecht &lt;- factor(c(\"m\", \"w\", \"w\", \"m\", \"m\"))\nlevels(geschlecht)  # Zeigt Kategorien\n\n[1] \"m\" \"w\"\n\n# Mit benutzerdefinierten Levels\nnoten &lt;- factor(\n  c(\"gut\", \"schlecht\", \"mittel\", \"gut\"),\n  levels = c(\"schlecht\", \"mittel\", \"gut\"),\n  ordered = TRUE\n)\n\n# Factor-Eigenschaften\nis.factor(geschlecht)   # TRUE\n\n[1] TRUE\n\nnlevels(geschlecht)     # Anzahl der Levels\n\n[1] 2\n\ntable(geschlecht)       # Häufigkeitstabelle\n\ngeschlecht\nm w \n3 2"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#data-frames",
+    "href": "5_DataStructures/1_DataStructures.html#data-frames",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Data Frames sind zweidimensionale Strukturen, die Spalten verschiedener Datentypen enthalten können (wie Tabellen in Datenbanken).\nVerwendung:\n\n# Data Frame erstellen\ndf &lt;- data.frame(\n  Name = c(\"Anna\", \"Bob\", \"Charlie\"),\n  Alter = c(25, 30, 35),\n  Verheiratet = c(TRUE, FALSE, TRUE),\n  stringsAsFactors = FALSE\n)\n\n# Zugriff auf Daten\ndf$Name             # Spalte über Namen\n\n[1] \"Anna\"    \"Bob\"     \"Charlie\"\n\ndf[1, ]             # Erste Zeile\n\n  Name Alter Verheiratet\n1 Anna    25        TRUE\n\ndf[, \"Alter\"]       # Spalte über Namen\n\n[1] 25 30 35\n\ndf[df$Alter &gt; 28, ] # Bedingte Auswahl\n\n     Name Alter Verheiratet\n2     Bob    30       FALSE\n3 Charlie    35        TRUE\n\n# Informationen über Data Frame\nstr(df)             # Struktur anzeigen\n\n'data.frame':   3 obs. of  3 variables:\n $ Name       : chr  \"Anna\" \"Bob\" \"Charlie\"\n $ Alter      : num  25 30 35\n $ Verheiratet: logi  TRUE FALSE TRUE\n\nsummary(df)         # Zusammenfassung\n\n     Name               Alter      Verheiratet    \n Length:3           Min.   :25.0   Mode :logical  \n Class :character   1st Qu.:27.5   FALSE:1        \n Mode  :character   Median :30.0   TRUE :2        \n                    Mean   :30.0                  \n                    3rd Qu.:32.5                  \n                    Max.   :35.0                  \n\n\nWeiterlesen:\n\nData Frame aus Spaltendaten\nData Frame aus Reihendaten\nReihen an Data Frame anfügen"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#tibbles",
+    "href": "5_DataStructures/1_DataStructures.html#tibbles",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Definition: Tibbles sind eine moderne Variante der Data Frames aus dem tidyverse-Paket, mit verbessertem Verhalten und besserer Ausgabe.\nVerwendung:\n\n# Tibble erstellen (benötigt tibble-Paket)\nlibrary(tibble)\n\ntbl &lt;- tibble(\n  Name = c(\"Anna\", \"Bob\", \"Charlie\"),\n  Alter = c(25, 30, 35),\n  Verheiratet = c(TRUE, FALSE, TRUE)\n)\n\n# Oder aus Data Frame konvertieren\ntbl2 &lt;- as_tibble(df)\n\n# Vorteile von Tibbles:\n# - Bessere Ausgabe (zeigt nur erste 10 Zeilen)\n# - Warnt bei problematischen Operationen\n# - Behält Datentypen besser bei\n# - Unterstützt unkonventionelle Spaltennamen\n\n# Zugriff funktioniert wie bei Data Frames\ntbl$Name\n\n[1] \"Anna\"    \"Bob\"     \"Charlie\"\n\ntbl[1, ]\n\n# A tibble: 1 × 3\n  Name  Alter Verheiratet\n  &lt;chr&gt; &lt;dbl&gt; &lt;lgl&gt;      \n1 Anna     25 TRUE"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#zusammenfassung-der-beziehungen",
+    "href": "5_DataStructures/1_DataStructures.html#zusammenfassung-der-beziehungen",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Vektoren sind die Basis aller anderen Strukturen\nListen können verschiedene Datentypen kombinieren\nMatrices und Arrays sind für numerische Berechnungen optimiert\nFactors behandeln kategoriale Daten effizient\nData Frames sind ideal für gemischte Datentypen in Tabellenform\nTibbles bieten eine verbesserte Version der Data Frames\nMode und Class beschreiben die Eigenschaften aller Objekte"
+  },
+  {
+    "objectID": "5_DataStructures/1_DataStructures.html#wahl-der-richtigen-datenstruktur",
+    "href": "5_DataStructures/1_DataStructures.html#wahl-der-richtigen-datenstruktur",
+    "title": "1 data Structures",
+    "section": "",
+    "text": "Verwende Vektoren für homogene Datensequenzen\nVerwende Listen für heterogene Datensammlungen\nVerwende Matrices für numerische 2D-Berechnungen\nVerwende Arrays für mehrdimensionale numerische Daten\nVerwende Factors für kategoriale Variablen\nVerwende Data Frames für tabellarische Daten mit gemischten Typen\nVerwende Tibbles wenn du mit dem tidyverse arbeitest"
+  },
+  {
+    "objectID": "5_DataStructures/2.2_ElementListeEntfernen.html",
+    "href": "5_DataStructures/2.2_ElementListeEntfernen.html",
+    "title": "Element aus einer Liste entfernen",
+    "section": "",
+    "text": "Ein Element soll von einer Liste entfernt werden"
+  },
+  {
+    "objectID": "5_DataStructures/2.2_ElementListeEntfernen.html#anwendungsfall",
+    "href": "5_DataStructures/2.2_ElementListeEntfernen.html#anwendungsfall",
+    "title": "Element aus einer Liste entfernen",
+    "section": "",
+    "text": "Ein Element soll von einer Liste entfernt werden"
+  },
+  {
+    "objectID": "5_DataStructures/2.2_ElementListeEntfernen.html#lösung",
+    "href": "5_DataStructures/2.2_ElementListeEntfernen.html#lösung",
+    "title": "Element aus einer Liste entfernen",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nWeise dem Element NULL zu.\n\n\nyears &lt;- list(\n  kennedy = 1960,\n  Johnson = 1964,\n  Carter = 1976,\n  Clinton = 1994)\n\nyears\n\n$kennedy\n[1] 1960\n\n$Johnson\n[1] 1964\n\n$Carter\n[1] 1976\n\n$Clinton\n[1] 1994\n\n\n\nEinzelnes Element entfernen:\n\nyears[[\"Johnson\"]] &lt;- NULL # Element entfernen\nyears\n\n$kennedy\n[1] 1960\n\n$Carter\n[1] 1976\n\n$Clinton\n[1] 1994\n\n\n\n\nMehrere Elemente:\n\nyears[c(\"Carter\", \"Clinton\")] &lt;- NULL\nyears\n\n$kennedy\n[1] 1960"
+  },
+  {
+    "objectID": "5_DataStructures/2.4_removeNullList.html",
+    "href": "5_DataStructures/2.4_removeNullList.html",
+    "title": "Null Elemente aus Liste entfernen",
+    "section": "",
+    "text": "Liste enthält NULL-Werte, die entfernt werden sollen\n\n\nlst &lt;- list(\"Moe\", NULL, \"Curly\")\nlst\n\n[[1]]\n[1] \"Moe\"\n\n[[2]]\nNULL\n\n[[3]]\n[1] \"Curly\""
+  },
+  {
+    "objectID": "5_DataStructures/2.4_removeNullList.html#anwendungsfall",
+    "href": "5_DataStructures/2.4_removeNullList.html#anwendungsfall",
+    "title": "Null Elemente aus Liste entfernen",
+    "section": "",
+    "text": "Liste enthält NULL-Werte, die entfernt werden sollen\n\n\nlst &lt;- list(\"Moe\", NULL, \"Curly\")\nlst\n\n[[1]]\n[1] \"Moe\"\n\n[[2]]\nNULL\n\n[[3]]\n[1] \"Curly\""
+  },
+  {
+    "objectID": "5_DataStructures/2.4_removeNullList.html#lösung",
+    "href": "5_DataStructures/2.4_removeNullList.html#lösung",
+    "title": "Null Elemente aus Liste entfernen",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nAnwenden der compact() Funktion aus dem purrr Paket\n\n\nlibrary(purrr)\n\ncompact(lst)\n\n[[1]]\n[1] \"Moe\"\n\n[[2]]\n[1] \"Curly\"\n\n\n\n💫 In R sind NA und NULL nicht dasselbe.\n💫 compact() entfernt nur NULL Werte, nicht NAs."
+  },
+  {
+    "objectID": "5_DataStructures/9.1_dataFrameFromColumns.html",
+    "href": "5_DataStructures/9.1_dataFrameFromColumns.html",
+    "title": "Data Frame aus Spaltendaten",
+    "section": "",
+    "text": "Daten sind in mehrere Vektoren und Faktoren angelegt und sollen in einen Data Frame zusammengeführt werden.\nDaten sind als Vektoren und Faktoren in einer Liste gespeichert und sollen in Data Frame überführt werden."
+  },
+  {
+    "objectID": "5_DataStructures/9.1_dataFrameFromColumns.html#anwendungsfall",
+    "href": "5_DataStructures/9.1_dataFrameFromColumns.html#anwendungsfall",
+    "title": "Data Frame aus Spaltendaten",
+    "section": "",
+    "text": "Daten sind in mehrere Vektoren und Faktoren angelegt und sollen in einen Data Frame zusammengeführt werden.\nDaten sind als Vektoren und Faktoren in einer Liste gespeichert und sollen in Data Frame überführt werden."
+  },
+  {
+    "objectID": "5_DataStructures/9.1_dataFrameFromColumns.html#lösung",
+    "href": "5_DataStructures/9.1_dataFrameFromColumns.html#lösung",
+    "title": "Data Frame aus Spaltendaten",
+    "section": "Lösung:",
+    "text": "Lösung:\n\nv1 &lt;- 1:5\nv2 &lt;- -5:-1\nv3 &lt;- 6:10\nf1 &lt;- c(\"Hund\", \"Kuchen\", \"Fische\", \"Pupsi\", \"Kinder\")\ndf &lt;- data.frame(v1, v2, v3, f1)\ndf\n\n  v1 v2 v3     f1\n1  1 -5  6   Hund\n2  2 -4  7 Kuchen\n3  3 -3  8 Fische\n4  4 -2  9  Pupsi\n5  5 -1 10 Kinder\n\n\n\nlst &lt;- list(v1 = v1, v2 = v2, v3 = v3, f1 = f1) # Spaltennamen (name/value Paare)\ndf &lt;- as.data.frame(lst)\ndf\n\n  v1 v2 v3     f1\n1  1 -5  6   Hund\n2  2 -4  7 Kuchen\n3  3 -3  8 Fische\n4  4 -2  9  Pupsi\n5  5 -1 10 Kinder"
+  },
+  {
+    "objectID": "5_DataStructures/9.1_dataFrameFromColumns.html#tibble",
+    "href": "5_DataStructures/9.1_dataFrameFromColumns.html#tibble",
+    "title": "Data Frame aus Spaltendaten",
+    "section": "Tibble",
+    "text": "Tibble\n\ntibble() Funktion aus dem tidiverse\n\n\nlibrary(tibble)\ntibble(v1 = v1, v2 = v2, v3 = v3, factor = f1)\n\n# A tibble: 5 × 4\n     v1    v2    v3 factor\n  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; \n1     1    -5     6 Hund  \n2     2    -4     7 Kuchen\n3     3    -3     8 Fische\n4     4    -2     9 Pupsi \n5     5    -1    10 Kinder\n\n\n\nas_tibble() Funktion, wenn die Daten in einer Liste gespeichert sind:\n\n\nas_tibble(lst)\n\n# A tibble: 5 × 4\n     v1    v2    v3 f1    \n  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; \n1     1    -5     6 Hund  \n2     2    -4     7 Kuchen\n3     3    -3     8 Fische\n4     4    -2     9 Pupsi \n5     5    -1    10 Kinder"
+  }
+]

@@ -1,0 +1,38 @@
+---
+title: "Element aus einer Liste entfernen"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Ein Element soll von einer Liste entfernt werden
+
+## Lösung:
+
+-   Weise dem Element NULL zu.
+
+```{r}
+years <- list(
+  kennedy = 1960,
+  Johnson = 1964,
+  Carter = 1976,
+  Clinton = 1994)
+
+years
+```
+
+### Einzelnes Element entfernen:
+
+```{r}
+years[["Johnson"]] <- NULL # Element entfernen
+years
+```
+
+### Mehrere Elemente:
+
+```{r}
+years[c("Carter", "Clinton")] <- NULL
+years
+```

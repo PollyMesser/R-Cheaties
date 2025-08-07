@@ -1,0 +1,31 @@
+---
+title: "Null Elemente aus Liste entfernen"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Liste enthält NULL-Werte, die entfernt werden sollen
+
+```{r}
+lst <- list("Moe", NULL, "Curly")
+lst
+```
+
+## Lösung:
+
+-   Anwenden der `compact()` Funktion aus dem `purrr` Paket
+
+```{r}
+library(purrr)
+
+compact(lst)
+```
+
+::: {#null_not_na .Note style="color: violet; font-weight: 600;"}
+💫 In R sind NA und NULL nicht dasselbe.
+
+💫 `compact()` entfernt nur NULL Werte, nicht NAs.
+:::

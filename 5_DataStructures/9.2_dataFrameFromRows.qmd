@@ -1,0 +1,46 @@
+---
+title: "Data Frame aus Reihendaten"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Daten sind in Reihen / Fällen organisiert und sollen als Data Frame zusammengeführt werden
+
+## Lösung
+
+-   Speichere jede Reihe in einen 1-Reihen Data Frame.
+
+-   Nutze `rbind()` aus dem Paket `dplyr`, um die Reihen zusammenzuführen.
+
+```{r}
+library(dplyr)
+r1 <- data.frame(a = 1, b = 2, c = "X")
+r2 <- data.frame(a = 3, b = 4, c = "Y")
+r3 <- data.frame(a = 5, b = 6, c = "Z")
+
+rbind(r1, r2, r3)
+```
+
+### Reihen in einer Liste
+
+-   Bei einer großen Anzahl von Reihen sind diese oft in Listen gespeichert.
+-   Nutze `bind_rows()` aus `dplyr`.
+
+```{r}
+list.of.rows <- list(r1, r2, r3)
+bind_rows(list.of.rows)
+```
+
+### Jede Reihe in einer Liste
+
+```{r}
+l1 <- list(a = 1, b = 2, c = "X")
+l2 <- list(a = 3, b = 4, c = "Y")
+l3 <- list(a = 5, b = 6, c = "Z")
+list.of.lists <- list(l1, l2, l3)
+
+bind_rows(list.of.lists)
+```

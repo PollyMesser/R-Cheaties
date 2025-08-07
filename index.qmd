@@ -1,0 +1,22 @@
+---
+title: "Willkommen zu meinem R Wiki"
+---
+
+## Überblick
+
+Hier sammle ich mein R-Wissen...
+
+## Inhalte
+
+- [Datenstrukturen in R](5_DataStructures/1_DataStructures.qmd)
+- [Daten Transformieren](#)
+- [Strings und Datum](#)
+- [Wahrscheinlichkeit](#)
+- [Statistik Allgemein](#)
+- [Grafiken](#)
+- [Lineare Regression und ANOVA](#)
+- [Nützliche Tricks](#)
+- [Jenseits von Grundlagenstatistik](#)
+- [Zeitreihenanalyse](#)
+- [Einfaches Programmieren](#)
+- [R Markdown und Veröffentlichen](#)

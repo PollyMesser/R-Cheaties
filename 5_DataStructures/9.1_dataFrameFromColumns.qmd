@@ -1,0 +1,46 @@
+---
+title: "Data Frame aus Spaltendaten"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Daten sind in mehrere Vektoren und Faktoren angelegt und sollen in einen Data Frame zusammengeführt werden.
+
+-   Daten sind als Vektoren und Faktoren in einer Liste gespeichert und sollen in Data Frame überführt werden.
+
+## Lösung:
+
+```{r}
+v1 <- 1:5
+v2 <- -5:-1
+v3 <- 6:10
+f1 <- c("Hund", "Kuchen", "Fische", "Pupsi", "Kinder")
+df <- data.frame(v1, v2, v3, f1)
+df
+```
+
+```{r}
+lst <- list(v1 = v1, v2 = v2, v3 = v3, f1 = f1) # Spaltennamen (name/value Paare)
+df <- as.data.frame(lst)
+df
+```
+
+## Tibble
+
+-   `tibble()` Funktion aus dem `tidiverse`
+
+```{r}
+library(tibble)
+tibble(v1 = v1, v2 = v2, v3 = v3, factor = f1)
+```
+
+-   `as_tibble()` Funktion, wenn die Daten in einer Liste gespeichert sind:
+
+```{r}
+as_tibble(lst)
+```
+
+## 

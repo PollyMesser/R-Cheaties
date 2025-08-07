@@ -1,0 +1,283 @@
+---
+title: "1 data Structures"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+# Datenstrukturen in R - Übersicht
+
+## 1. Vektoren (Vectors)
+
+**Definition:** Vektoren sind die grundlegendste Datenstruktur in R. Sie enthalten eine Sequenz von Elementen des gleichen Datentyps.
+
+**Verwendung:**
+
+```{r}
+# Numerische Vektoren
+zahlen <- c(1, 2, 3, 4, 5)
+decimal <- c(1.5, 2.7, 3.14)
+
+# Character Vektoren
+namen <- c("Anna", "Bob", "Charlie")
+
+# Logische Vektoren
+wahrheit <- c(TRUE, FALSE, TRUE)
+
+# Zugriff auf Elemente
+zahlen[1]      # Erstes Element
+zahlen[1:3]    # Erste drei Elemente
+```
+
+**Weiterlesen**: [Vektoren zu Vektor und Faktor kombinieren](1.1_vectorfactor.qmd "Vektoren zu Vektor und Faktor kombinieren")
+
+## 2. Listen (Lists)
+
+**Definition:** Listen können Elemente verschiedener Datentypen enthalten und sind rekursiv (können andere Listen enthalten).
+
+**Verwendung:**
+
+```{r}
+# Liste erstellen
+meine_liste <- list(
+  zahlen = c(1, 2, 3),
+  text = "Hallo Welt",
+  logik = TRUE,
+  matrix = matrix(1:6, nrow = 2)
+)
+
+# Zugriff auf Listenelemente
+meine_liste$zahlen      # Mit $
+meine_liste[[1]]        # Mit Index
+meine_liste[["zahlen"]] # Mit Namen
+```
+
+**Weiterlesen**:
+
+-   [Listen mit Name/Wert-Assoziationen](2.1_nameWertListe.qmd)
+
+-   [Element aus Liste entfernen](2.2_ElementListeEntfernen.qmd)
+
+-   [Liste in Vektor umwandeln](2.3_ListVector.qmd)
+
+-   [Null Elemente aus einer Liste entfernen](removeNullList.qmd)
+
+-   [Listenelemente nach einer Bedingung entfernen](listRemoveCondition.qmd)
+
+## 3. Mode
+
+**Definition:** Mode beschreibt den grundlegenden Typ der Daten, die in einem Objekt gespeichert sind.
+
+**Verwendung:**
+
+```{r}
+# Verschiedene Modi
+mode(c(1, 2, 3))        # "numeric"
+mode(c("a", "b"))       # "character"
+mode(c(TRUE, FALSE))    # "logical"
+mode(list(1, 2, 3))     # "list"
+
+# Mode prüfen
+is.numeric(c(1, 2, 3))  # TRUE
+is.character("text")    # TRUE
+```
+
+## 4. Class
+
+**Definition:** Class ist ein Attribut, das die objektorientierte Struktur eines Objekts definiert und bestimmt, wie Funktionen damit umgehen.
+
+**Verwendung:**
+
+```{r}
+# Class bestimmen
+x <- c(1, 2, 3)
+class(x)                # "numeric"
+
+# Class setzen
+class(x) <- "meine_klasse"
+class(x)                # "meine_klasse"
+
+# Für verschiedene Objekte
+class(data.frame())     # "data.frame"
+class(matrix(1:4, 2))   # "matrix" "array"
+```
+
+## 5. Scalare
+
+**Definition:** Scalare sind einzelne Werte (technisch gesehen Vektoren der Länge 1 in R).
+
+**Verwendung:**
+
+```{r}
+# Verschiedene Scalar-Typen
+zahl <- 42
+text <- "Einzelwort"
+wahrheit <- TRUE
+
+# Prüfung auf Länge
+length(zahl)    # 1
+is.vector(zahl) # TRUE
+```
+
+## 6. Matrices
+
+**Definition:** Matrices sind zweidimensionale Arrays mit Elementen des gleichen Datentyps, organisiert in Zeilen und Spalten.
+
+**Verwendung:**
+
+```{r}
+# Matrix erstellen
+mat1 <- matrix(1:12, nrow = 3, ncol = 4)
+mat2 <- matrix(1:12, nrow = 3, byrow = TRUE)
+
+# Mit Zeilen- und Spaltennamen
+dimnames(mat1) <- list(
+  c("Zeile1", "Zeile2", "Zeile3"),
+  c("Sp1", "Sp2", "Sp3", "Sp4")
+)
+
+# Zugriff auf Elemente
+mat1[1, 2]          # Element in Zeile 1, Spalte 2
+mat1[1, ]           # Erste Zeile
+mat1[, 2]           # Zweite Spalte
+```
+
+## 7. Arrays
+
+**Definition:** Arrays sind mehrdimensionale Verallgemeinerungen von Matrices mit mehr als zwei Dimensionen.
+
+**Verwendung:**
+
+```{r}
+# 3-dimensionales Array
+arr <- array(1:24, dim = c(3, 4, 2))
+
+# Mit Dimensionsnamen
+dimnames(arr) <- list(
+  Zeilen = c("Z1", "Z2", "Z3"),
+  Spalten = c("S1", "S2", "S3", "S4"),
+  Schichten = c("Schicht1", "Schicht2")
+)
+
+# Zugriff auf Elemente
+arr[1, 2, 1]        # Spezifisches Element
+arr[, , 1]          # Erste Schicht
+```
+
+## 8. Factors
+
+**Definition:** Factors repräsentieren kategoriale Daten mit vordefinierten Levels (Kategorien).
+
+**Verwendung:**
+
+```{r}
+# Factor erstellen
+geschlecht <- factor(c("m", "w", "w", "m", "m"))
+levels(geschlecht)  # Zeigt Kategorien
+
+# Mit benutzerdefinierten Levels
+noten <- factor(
+  c("gut", "schlecht", "mittel", "gut"),
+  levels = c("schlecht", "mittel", "gut"),
+  ordered = TRUE
+)
+
+# Factor-Eigenschaften
+is.factor(geschlecht)   # TRUE
+nlevels(geschlecht)     # Anzahl der Levels
+table(geschlecht)       # Häufigkeitstabelle
+```
+
+## 9. Data Frames
+
+**Definition:** Data Frames sind zweidimensionale Strukturen, die Spalten verschiedener Datentypen enthalten können (wie Tabellen in Datenbanken).
+
+**Verwendung:**
+
+```{r}
+# Data Frame erstellen
+df <- data.frame(
+  Name = c("Anna", "Bob", "Charlie"),
+  Alter = c(25, 30, 35),
+  Verheiratet = c(TRUE, FALSE, TRUE),
+  stringsAsFactors = FALSE
+)
+
+# Zugriff auf Daten
+df$Name             # Spalte über Namen
+df[1, ]             # Erste Zeile
+df[, "Alter"]       # Spalte über Namen
+df[df$Alter > 28, ] # Bedingte Auswahl
+
+# Informationen über Data Frame
+str(df)             # Struktur anzeigen
+summary(df)         # Zusammenfassung
+```
+
+**Weiterlesen**:
+
+-   [Data Frame aus Spaltendaten](9.1_dataFrameFromColumns.qmd)
+-   [Data Frame aus Reihendaten](9.2_dataFrameFromRows.qmd)
+-   [Reihen an Data Frame anfügen](9.3_rowsToDataFrame.qmd)
+
+## 10. Tibbles
+
+**Definition:** Tibbles sind eine moderne Variante der Data Frames aus dem tidyverse-Paket, mit verbessertem Verhalten und besserer Ausgabe.
+
+**Verwendung:**
+
+```{r}
+# Tibble erstellen (benötigt tibble-Paket)
+library(tibble)
+
+tbl <- tibble(
+  Name = c("Anna", "Bob", "Charlie"),
+  Alter = c(25, 30, 35),
+  Verheiratet = c(TRUE, FALSE, TRUE)
+)
+
+# Oder aus Data Frame konvertieren
+tbl2 <- as_tibble(df)
+
+# Vorteile von Tibbles:
+# - Bessere Ausgabe (zeigt nur erste 10 Zeilen)
+# - Warnt bei problematischen Operationen
+# - Behält Datentypen besser bei
+# - Unterstützt unkonventionelle Spaltennamen
+
+# Zugriff funktioniert wie bei Data Frames
+tbl$Name
+tbl[1, ]
+```
+
+## Zusammenfassung der Beziehungen
+
+-   **Vektoren** sind die Basis aller anderen Strukturen
+
+-   **Listen** können verschiedene Datentypen kombinieren
+
+-   **Matrices** und **Arrays** sind für numerische Berechnungen optimiert
+
+-   **Factors** behandeln kategoriale Daten effizient
+
+-   **Data Frames** sind ideal für gemischte Datentypen in Tabellenform
+
+-   **Tibbles** bieten eine verbesserte Version der Data Frames
+
+-   **Mode** und **Class** beschreiben die Eigenschaften aller Objekte
+
+## Wahl der richtigen Datenstruktur
+
+-   Verwende **Vektoren** für homogene Datensequenzen
+
+-   Verwende **Listen** für heterogene Datensammlungen
+
+-   Verwende **Matrices** für numerische 2D-Berechnungen
+
+-   Verwende **Arrays** für mehrdimensionale numerische Daten
+
+-   Verwende **Factors** für kategoriale Variablen
+
+-   Verwende **Data Frames** für tabellarische Daten mit gemischten Typen
+
+-   Verwende **Tibbles** wenn du mit dem tidyverse arbeitest

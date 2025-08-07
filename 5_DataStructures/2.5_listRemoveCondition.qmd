@@ -1,0 +1,79 @@
+---
+title: "Listenelemente nach Bedingung entfernen"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Es sollen Elemente, die eine bestimmte Bedingung erfüllen, aus einer Liste entfernt werden.
+
+-   Z. B. Werte, die undefiniert oder negativ sind oder unterhalb eines bestimmten Schwellenwertes liegen.
+
+```{r}
+lst <- list(NA, 0, NA, 1, 2)
+```
+
+## Lösung:
+
+-   Anwenden der `discard()` Funktion aus dem `purrr` Paket.
+
+-   Werte, die dem Kriterium entsprechen, werden entfernt.
+
+```{r}
+library(purrr)
+
+lst |>
+  discard(is.na)
+```
+
+### Entfernen von character strings:
+
+```{r}
+lst <- list(3, "dog", 2, "cat", 1)
+lst |>
+  discard(is.character)
+```
+
+### Eine eigene Bedingung definieren:
+
+```{r}
+is_na_or_null <- function(x) {
+  is.na(x) || is.null(x)
+}
+
+lst <- list(1, NA, 2, NULL, 3)
+lst |>
+  discard(is_na_or_null)
+```
+
+### Komplexe Objekte
+
+-   Listen können komplexe Objekte enthalten, zum Beispiel lineare Modelle, die mit der `lm()` Funktion erstellt worden sind:
+
+```{r}
+#| eval: false
+mods <- list(lm(x ~ y1),
+             lm(x ~ y2),
+             lm(x ~ y3))
+```
+
+-   Mit einer Bedingung können Modelle identifiziert werden, deren $R^2$ kleiner a.s 0.7 sind, danach können diese Modelle mit der `discard()` Funktion entfernt werden:
+
+```{r}
+#| eval: false
+filter_r2 <- function(model) {
+  summary(model)$r.squared < 0.7
+}
+
+mods |>
+  discard(filter_r2)
+```
+
+
+::: {#retainElement .note style="color:violet; font-weight: 600; background-color: paleturquoise; border-radius: 8px; padding: 20px;"}
+💫 Die Gegenfunktion von `discard()` ist `keep()`.
+
+💫 In `keep()` werden Elemente angegeben, die in der Liste bleiben sollen.
+:::

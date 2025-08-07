@@ -1,0 +1,10 @@
+---
+title: "Reihen an Data Frame anfügen"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   

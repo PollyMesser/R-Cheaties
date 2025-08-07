@@ -1,0 +1,45 @@
+---
+title: "Liste in Vektor umwandeln"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+```{r}
+#| include: false
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+```
+
+## Anwendungsfall:
+
+-   Viele statistische Funktionen lassen sich auf Vektoren, aber nicht auf Listen anwenden.
+
+### Beispiel
+
+```{r error=TRUE}
+iq.scores <- list(100, 120, 103, 80, 99)
+mean(iq.scores)
+```
+
+## Lösung:
+
+-   `unlist` Funktion anwenden
+
+```{r}
+mean(unlist(iq.scores))
+```
+
+### Weiteres Beispiel
+
+```{r error=TRUE}
+cat(iq.scores, "\n")
+```
+
+```{r}
+cat("IQ-Scores:", unlist(iq.scores), "\n")
+```

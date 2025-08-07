@@ -1,0 +1,38 @@
+---
+title: "Mehrere Vektoren zu Vektor und Faktor kombinieren"
+author: "Claudia Spannbauer"
+format: html
+editor: visual
+---
+
+## Anwendungsfall:
+
+-   Man hat mehrere Datengruppen, die jeweils aus einem Vektor bestehen.
+
+-   Die Vektoren sollen kombiniert werden, sodass ein langer Vektor entsteht und gleichzeitig eine Faktorvariable, die die Herkunft für jeden Wert markiert.
+
+-   z.B. wurden verschiedene Gruppen getrennt voneinander befragt und jetzt sollen Gruppenunterschiede berechnet werden.
+
+## Lösung:
+
+-   Eine Liste erstellen, die die Vektoren enthält
+
+-   Mit der `stack`-Funktion kann die Liste in einen Data Frame mit 2 Spalten kombiniert werden:
+
+```{r}
+v1 <- c(11:15)
+v2 <- c(21:25)
+v3 <- c(31:35)
+
+comb <- stack(list(v1 = v1, v2 = v2, v3 = v3)) # 3 Faktoren kombinieren
+comb
+```
+
+## ANOVA
+
+-   Jetzt können Gruppenunterschiede mittels einer ANOVA untersucht werden:
+
+```{r}
+aov.comb <- aov(values ~ ind, data = comb)
+summary(aov.comb)
+```
