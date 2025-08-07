@@ -60,9 +60,9 @@ meine_liste[["zahlen"]] # Mit Namen
 
 -   [Liste in Vektor umwandeln](2.3_ListVector.qmd)
 
--   [Null Elemente aus einer Liste entfernen](removeNullList.qmd)
+-   [Null Elemente aus einer Liste entfernen](2.4_removeNullList.qmd)
 
--   [Listenelemente nach einer Bedingung entfernen](listRemoveCondition.qmd)
+-   [Listenelemente nach einer Bedingung entfernen](2.5_listRemoveCondition.qmd)
 
 ## 3. Mode
 
@@ -253,31 +253,19 @@ tbl[1, ]
 ## Zusammenfassung der Beziehungen
 
 -   **Vektoren** sind die Basis aller anderen Strukturen
-
 -   **Listen** können verschiedene Datentypen kombinieren
-
 -   **Matrices** und **Arrays** sind für numerische Berechnungen optimiert
-
 -   **Factors** behandeln kategoriale Daten effizient
-
 -   **Data Frames** sind ideal für gemischte Datentypen in Tabellenform
-
 -   **Tibbles** bieten eine verbesserte Version der Data Frames
-
 -   **Mode** und **Class** beschreiben die Eigenschaften aller Objekte
 
 ## Wahl der richtigen Datenstruktur
 
 -   Verwende **Vektoren** für homogene Datensequenzen
-
 -   Verwende **Listen** für heterogene Datensammlungen
-
 -   Verwende **Matrices** für numerische 2D-Berechnungen
-
 -   Verwende **Arrays** für mehrdimensionale numerische Daten
-
 -   Verwende **Factors** für kategoriale Variablen
-
 -   Verwende **Data Frames** für tabellarische Daten mit gemischten Typen
-
 -   Verwende **Tibbles** wenn du mit dem tidyverse arbeitest
