@@ -9,6 +9,17 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+  page-footer:
+    left: "© 2025 Claudia Spannbauer."
+    right: 
+      - text: "Impressum"
+        href: \#
+      - text: "Datenschutz" 
+        href: \#
+      - text: "Kontakt"
+        href: \#
+    background: "#f8f9fa"
+    foreground: "#6c757d"
 
 format:
   html:
