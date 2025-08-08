@@ -1,0 +1,86 @@
+/* Container für die Menu-Liste */
+.menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Jeder Menu-Item Link als Button */
+.menu-item {
+  display: grid !important;
+  grid-template-columns: 60px 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  background-color: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  text-decoration: none !important;
+  color: #495057 !important;
+  transition: all 0.2s ease;
+  min-height: 55px;
+  cursor: pointer;
+  font-weight: 500;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.menu-item:hover {
+  background-color: #ffffff;
+  border-color: #007bff;
+  color: #007bff !important;
+  text-decoration: none !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,123,255,0.15);
+}
+
+.menu-item:visited {
+  color: #495057 !important;
+}
+
+.menu-item:visited:hover {
+  color: #007bff !important;
+}
+
+/* FontAwesome Icons innerhalb der Links */
+.menu-item .fa {
+  color: #6c757d;
+  font-size: 1.3em;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  margin: 0;
+  grid-column: 1;
+}
+
+.menu-item:hover .fa {
+  color: #007bff;
+  background-color: rgba(0,123,255,0.1);
+}
+
+/* Text-Bereich */
+.menu-item span:not(.fa) {
+  grid-column: 2;
+  text-align: left;
+}
+
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+  .menu-item {
+    padding: 10px 16px;
+    min-height: 45px;
+  }
+  
+  .menu-item .fa {
+    margin-right: 15px;
+    font-size: 1.1em;
+  }
+}

@@ -1,0 +1,38 @@
+---
+title: "Fehlende Werte aus Data Frame entfernen"
+author: "Claudia Spannbauer"
+editor: visual
+---
+
+## Anwendung:
+
+-   Wir möchten Zeilen löschen, die NAs enthalten.
+
+-   Wir nutzen den penguins Datensatz aus dem Paket `palmerpenguins`:
+
+```{r}
+#| message: FALSE
+library(palmerpenguins)
+data("penguins")
+pinguine <- penguins |>
+  head(7)
+pinguine
+```
+
+-   Funktion `na.omit()` löscht alle Zeilen mit NAs:
+
+```{r}
+saubere_pinguine <- na.omit(pinguine)
+saubere_pinguine
+```
+
+::: {style="background-color: #7FFFD4; color: darkviolet; border-radius: 8px; padding: 10px;"}
+```{r}
+#| echo: FALSE
+library(fontawesome)
+```
+
+`r fa("triangle-exclamation")` **Vorsicht!**
+
+Das Löschen von ganzen Zeilen aufgrund von NAs kann zu einer Verzerrung der Daten führen und sollte deshalb nur in Ausnahmefällen angewendet werden!
+:::

@@ -1,0 +1,120 @@
+---
+title: "Zwei Data Frames kombinieren"
+author: "Claudia Spannbauer"
+editor: visual
+---
+
+## Spalten und Reihen zusammenführen:
+
+-   Der Inhalt von zwei Data Frames soll zu einem Data Frame zusammengefügt werden.
+
+-   Wir nutzen den penguins-Datensatz aus dem `palmerpenguins` Paket:
+
+```{r}
+#| message: FALSE
+library(dplyr)
+library(palmerpenguins)
+data("penguins")
+
+```
+
+### Spalten aneinander reihen
+
+-   Hier erstellen wir zwei Datensätze durch Auswahl von Spaltenindizes:
+
+```{r}
+pinguSpalten1 <- penguins |>
+  select(1:4)
+head(pinguSpalten1)
+
+pinguSpalten2 <- penguins |>
+  select(5:8)
+head(pinguSpalten2)
+```
+
+-   Um die Spalten wieder zusammenzuführen, können wir die Funktion `cbind()` aus dem `dplyr` Paket verwenden:
+
+```{r}
+alleSpalten.pinguine <- cbind(pinguSpalten1, pinguSpalten2)
+head(alleSpalten.pinguine)
+```
+
+### Reihen zusammenfügen
+
+-   Wir erstellen zwei Datensätze, indem wir List expressions verwenden:
+
+```{r}
+pinguReihen1 <- penguins[c(1:4), ]
+pinguReihen1
+
+pinguReihen2 <- penguins[c(5:8), ]
+pinguReihen2
+```
+
+-   Um die Reihen zusammenzuführen, nutzen wir `rbind()` aus dem `dplyr` Paket:
+
+```{r}
+alleReihen.pinguine <- rbind(pinguReihen1, pinguReihen2)
+alleReihen.pinguine
+```
+
+## Data Frames anhand einer gemeinsamen Spalte zusammenfügen
+
+-   Wir haben zwei Datensätze, die eine gemeinsamt Spalte haben
+
+-   Die gemeinsame Spalte ist oft ein Index oder individueller Pseudonimisierungscode, der für jede Beobachtung / Zeile einzigartig ist
+
+-   Bei unserem Pinguin-Datensatz gibt es eine solche Spalte nicht, deshalb erstellen wir eine:
+
+```{r}
+pinguine <- penguins |>
+  head(8)
+pinguIndex <- c(1:8)
+
+pinguine <- cbind(pinguIndex, pinguine)
+```
+
+-   Für deskriptive Auswertungen haben wir Geschlecht und Jahr aus dem Datensatz einzeln angeschaut und fehlende Werte ausgeschlossen:
+
+```{r}
+pinguGeschlecht <- pinguine |>
+  select("pinguIndex", "sex") |>
+  na.omit()
+pinguGeschlecht
+
+pinguJahr <- pinguine |>
+  select("pinguIndex", "year")
+pinguJahr
+```
+
+### Zusammenführen
+
+-   Um die Daten wieder zusammenzuführen, nutzen wir `join()` - Funktionen aus dem Paket `dplyr`.
+
+-   `inner_join()` erhält nur die Daten, die in beiden Datensätzen vorkommen.
+
+-   `full_join()` erhält alle Daten
+
+-   `left_join()` erhält alle Daten aus dem ersten Datensatz
+
+-   `right_join()` erhält alle Daten aus dem zweiten Datensatz
+
+```{r}
+pingu_inner <- inner_join(pinguGeschlecht, pinguJahr)
+pingu_inner
+```
+
+-   Durch `inner_join()` ist ein Wert in `year` ausgeschlossen worden, der zuvor aufgrund von NA in der Variable `sex` aus dem ersten Datensatz gelöscht worden war.
+
+-   Mit `full_join()` oder `right_join()` hätte man in dem Fall alle Daten erhalten.
+
+::: {style="background-color: #7FFFD4; color: darkviolet; border-radius: 8px; padding: 10px;"}
+```{r}
+#| echo: FALSE
+library(fontawesome)
+```
+
+`r fa("lightbulb")` **Wichtig!**
+
+Überlege beim Anwenden von `join()`-Methoden immer genau, was du damit bezweckst und welche Daten du nicht verlieren möchtest. So kannst du böse Überraschungen vermeiden.
+:::

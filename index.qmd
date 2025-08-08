@@ -2,21 +2,41 @@
 title: "Willkommen zu meinem R Wiki"
 ---
 
+```{r echo=FALSE}
+library(fontawesome)
+```
+
 ## Überblick
 
 Hier sammle ich mein R-Wissen...
 
 ## Inhalte
 
-- [Datenstrukturen in R](5_DataStructures/1_DataStructures.qmd)
-- [Daten Transformieren](#)
-- [Strings und Datum](#)
-- [Wahrscheinlichkeit](#)
-- [Statistik Allgemein](#)
-- [Grafiken](#)
-- [Lineare Regression und ANOVA](#)
-- [Nützliche Tricks](#)
-- [Jenseits von Grundlagenstatistik](#)
-- [Zeitreihenanalyse](#)
-- [Einfaches Programmieren](#)
-- [R Markdown und Veröffentlichen](#)
+::: {.menu-list}
+
+[`r fa("sitemap")` Datenstrukturen in R](5_DataStructures/1_DataStructures.qmd){.menu-item}
+
+[`r fa("bus")` Daten Transformieren](#){.menu-item}
+
+[`r fa("calendar-days")` Strings und Datum](#){.menu-item}
+
+[`r fa("bell")` Wahrscheinlichkeit](#){.menu-item}
+
+[`r fa("calculator")` Statistik Allgemein](#){.menu-item}
+
+[`r fa("chart-pie")` Grafiken](#){.menu-item}
+
+[`r fa("infinity")` Lineare Regression und ANOVA](#){.menu-item}
+
+[`r fa("circle-info")` Nützliche Tricks](#){.menu-item}
+
+[`r fa("rocket")` Jenseits von Grundlagenstatistik](#){.menu-item}
+
+[`r fa("timeline")` Zeitreihenanalyse](#){.menu-item}
+
+[`r fa("laptop-code")` Einfaches Programmieren](#){.menu-item}
+
+[`r fa("user-astronaut")` R Markdown und Veröffentlichen](#){.menu-item}
+
+:::
+

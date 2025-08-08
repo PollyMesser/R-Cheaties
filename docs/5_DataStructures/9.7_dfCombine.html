@@ -8,7 +8,7 @@
 
 <meta name="author" content="Claudia Spannbauer">
 
-<title>Data Frame aus Reihendaten – R-Cheaties</title>
+<title>Zwei Data Frames kombinieren – R-Cheaties</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,11 +148,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#anwendungsfall" id="toc-anwendungsfall" class="nav-link active" data-scroll-target="#anwendungsfall">Anwendungsfall:</a></li>
-  <li><a href="#lösung" id="toc-lösung" class="nav-link" data-scroll-target="#lösung">Lösung</a>
+  <li><a href="#spalten-und-reihen-zusammenführen" id="toc-spalten-und-reihen-zusammenführen" class="nav-link active" data-scroll-target="#spalten-und-reihen-zusammenführen">Spalten und Reihen zusammenführen:</a>
   <ul class="collapse">
-  <li><a href="#reihen-in-einer-liste" id="toc-reihen-in-einer-liste" class="nav-link" data-scroll-target="#reihen-in-einer-liste">Reihen in einer Liste</a></li>
-  <li><a href="#jede-reihe-in-einer-liste" id="toc-jede-reihe-in-einer-liste" class="nav-link" data-scroll-target="#jede-reihe-in-einer-liste">Jede Reihe in einer Liste</a></li>
+  <li><a href="#spalten-aneinander-reihen" id="toc-spalten-aneinander-reihen" class="nav-link" data-scroll-target="#spalten-aneinander-reihen">Spalten aneinander reihen</a></li>
+  <li><a href="#reihen-zusammenfügen" id="toc-reihen-zusammenfügen" class="nav-link" data-scroll-target="#reihen-zusammenfügen">Reihen zusammenfügen</a></li>
+  </ul></li>
+  <li><a href="#data-frames-anhand-einer-gemeinsamen-spalte-zusammenfügen" id="toc-data-frames-anhand-einer-gemeinsamen-spalte-zusammenfügen" class="nav-link" data-scroll-target="#data-frames-anhand-einer-gemeinsamen-spalte-zusammenfügen">Data Frames anhand einer gemeinsamen Spalte zusammenfügen</a>
+  <ul class="collapse">
+  <li><a href="#zusammenführen" id="toc-zusammenführen" class="nav-link" data-scroll-target="#zusammenführen">Zusammenführen</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -162,7 +165,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Frame aus Reihendaten</h1>
+<h1 class="title">Zwei Data Frames kombinieren</h1>
 </div>
 
 
@@ -185,80 +188,210 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="anwendungsfall" class="level2">
-<h2 class="anchored" data-anchor-id="anwendungsfall">Anwendungsfall:</h2>
+<section id="spalten-und-reihen-zusammenführen" class="level2">
+<h2 class="anchored" data-anchor-id="spalten-und-reihen-zusammenführen">Spalten und Reihen zusammenführen:</h2>
 <ul>
-<li>Daten sind in Reihen / Fällen organisiert und sollen als Data Frame zusammengeführt werden</li>
+<li><p>Der Inhalt von zwei Data Frames soll zu einem Data Frame zusammengefügt werden.</p></li>
+<li><p>Wir nutzen den penguins-Datensatz aus dem <code>palmerpenguins</code> Paket:</p></li>
 </ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"penguins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="spalten-aneinander-reihen" class="level3">
+<h3 class="anchored" data-anchor-id="spalten-aneinander-reihen">Spalten aneinander reihen</h3>
+<ul>
+<li>Hier erstellen wir zwei Datensätze durch Auswahl von Spaltenindizes:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pinguSpalten1 <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pinguSpalten1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  species island    bill_length_mm bill_depth_mm
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;
+1 Adelie  Torgersen           39.1          18.7
+2 Adelie  Torgersen           39.5          17.4
+3 Adelie  Torgersen           40.3          18  
+4 Adelie  Torgersen           NA            NA  
+5 Adelie  Torgersen           36.7          19.3
+6 Adelie  Torgersen           39.3          20.6</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pinguSpalten2 <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pinguSpalten2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 4
+  flipper_length_mm body_mass_g sex     year
+              &lt;int&gt;       &lt;int&gt; &lt;fct&gt;  &lt;int&gt;
+1               181        3750 male    2007
+2               186        3800 female  2007
+3               195        3250 female  2007
+4                NA          NA &lt;NA&gt;    2007
+5               193        3450 female  2007
+6               190        3650 male    2007</code></pre>
+</div>
+</div>
+<ul>
+<li>Um die Spalten wieder zusammenzuführen, können wir die Funktion <code>cbind()</code> aus dem <code>dplyr</code> Paket verwenden:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>alleSpalten.pinguine <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pinguSpalten1, pinguSpalten2)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(alleSpalten.pinguine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  species    island bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+1  Adelie Torgersen           39.1          18.7               181        3750
+2  Adelie Torgersen           39.5          17.4               186        3800
+3  Adelie Torgersen           40.3          18.0               195        3250
+4  Adelie Torgersen             NA            NA                NA          NA
+5  Adelie Torgersen           36.7          19.3               193        3450
+6  Adelie Torgersen           39.3          20.6               190        3650
+     sex year
+1   male 2007
+2 female 2007
+3 female 2007
+4   &lt;NA&gt; 2007
+5 female 2007
+6   male 2007</code></pre>
+</div>
+</div>
 </section>
-<section id="lösung" class="level2">
-<h2 class="anchored" data-anchor-id="lösung">Lösung</h2>
+<section id="reihen-zusammenfügen" class="level3">
+<h3 class="anchored" data-anchor-id="reihen-zusammenfügen">Reihen zusammenfügen</h3>
 <ul>
-<li><p>Speichere jede Reihe in einen 1-Reihen Data Frame.</p></li>
-<li><p>Nutze <code>rbind()</code> aus dem Paket <code>dplyr</code>, um die Reihen zusammenzuführen.</p></li>
+<li>Wir erstellen zwei Datensätze, indem wir List expressions verwenden:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attache Paket: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Die folgenden Objekte sind maskiert von 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Die folgenden Objekte sind maskiert von 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="st">"X"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="st">"Y"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">6</span>, <span class="at">c =</span> <span class="st">"Z"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(r1, r2, r3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pinguReihen1 <span class="ot">&lt;-</span> penguins[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>), ]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pinguReihen1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  a b c
-1 1 2 X
-2 3 4 Y
-3 5 6 Z</code></pre>
+<pre><code># A tibble: 4 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pinguReihen2 <span class="ot">&lt;-</span> penguins[<span class="fu">c</span>(<span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>), ]</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>pinguReihen2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           36.7          19.3               193        3450
+2 Adelie  Torgersen           39.3          20.6               190        3650
+3 Adelie  Torgersen           38.9          17.8               181        3625
+4 Adelie  Torgersen           39.2          19.6               195        4675
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 </div>
 </div>
-<section id="reihen-in-einer-liste" class="level3">
-<h3 class="anchored" data-anchor-id="reihen-in-einer-liste">Reihen in einer Liste</h3>
 <ul>
-<li>Bei einer großen Anzahl von Reihen sind diese oft in Listen gespeichert.</li>
-<li>Nutze <code>bind_rows()</code> aus <code>dplyr</code>.</li>
+<li>Um die Reihen zusammenzuführen, nutzen wir <code>rbind()</code> aus dem <code>dplyr</code> Paket:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>list.of.rows <span class="ot">&lt;-</span> <span class="fu">list</span>(r1, r2, r3)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(list.of.rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>alleReihen.pinguine <span class="ot">&lt;-</span> <span class="fu">rbind</span>(pinguReihen1, pinguReihen2)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>alleReihen.pinguine</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  a b c
-1 1 2 X
-2 3 4 Y
-3 5 6 Z</code></pre>
+<pre><code># A tibble: 8 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+6 Adelie  Torgersen           39.3          20.6               190        3650
+7 Adelie  Torgersen           38.9          17.8               181        3625
+8 Adelie  Torgersen           39.2          19.6               195        4675
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 </div>
 </div>
 </section>
-<section id="jede-reihe-in-einer-liste" class="level3">
-<h3 class="anchored" data-anchor-id="jede-reihe-in-einer-liste">Jede Reihe in einer Liste</h3>
+</section>
+<section id="data-frames-anhand-einer-gemeinsamen-spalte-zusammenfügen" class="level2">
+<h2 class="anchored" data-anchor-id="data-frames-anhand-einer-gemeinsamen-spalte-zusammenfügen">Data Frames anhand einer gemeinsamen Spalte zusammenfügen</h2>
+<ul>
+<li><p>Wir haben zwei Datensätze, die eine gemeinsamt Spalte haben</p></li>
+<li><p>Die gemeinsame Spalte ist oft ein Index oder individueller Pseudonimisierungscode, der für jede Beobachtung / Zeile einzigartig ist</p></li>
+<li><p>Bei unserem Pinguin-Datensatz gibt es eine solche Spalte nicht, deshalb erstellen wir eine:</p></li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="st">"X"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="st">"Y"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>l3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">6</span>, <span class="at">c =</span> <span class="st">"Z"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>list.of.lists <span class="ot">&lt;-</span> <span class="fu">list</span>(l1, l2, l3)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(list.of.lists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 3
-      a     b c    
-  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
-1     1     2 X    
-2     3     4 Y    
-3     5     6 Z    </code></pre>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>pinguine <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">8</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>pinguIndex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>pinguine <span class="ot">&lt;-</span> <span class="fu">cbind</span>(pinguIndex, pinguine)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<ul>
+<li>Für deskriptive Auswertungen haben wir Geschlecht und Jahr aus dem Datensatz einzeln angeschaut und fehlende Werte ausgeschlossen:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pinguGeschlecht <span class="ot">&lt;-</span> pinguine <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"pinguIndex"</span>, <span class="st">"sex"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">na.omit</span>()</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>pinguGeschlecht</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pinguIndex    sex
+1          1   male
+2          2 female
+3          3 female
+5          5 female
+6          6   male
+7          7 female
+8          8   male</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>pinguJahr <span class="ot">&lt;-</span> pinguine <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"pinguIndex"</span>, <span class="st">"year"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>pinguJahr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pinguIndex year
+1          1 2007
+2          2 2007
+3          3 2007
+4          4 2007
+5          5 2007
+6          6 2007
+7          7 2007
+8          8 2007</code></pre>
+</div>
+</div>
+<section id="zusammenführen" class="level3">
+<h3 class="anchored" data-anchor-id="zusammenführen">Zusammenführen</h3>
+<ul>
+<li><p>Um die Daten wieder zusammenzuführen, nutzen wir <code>join()</code> - Funktionen aus dem Paket <code>dplyr</code>.</p></li>
+<li><p><code>inner_join()</code> erhält nur die Daten, die in beiden Datensätzen vorkommen.</p></li>
+<li><p><code>full_join()</code> erhält alle Daten</p></li>
+<li><p><code>left_join()</code> erhält alle Daten aus dem ersten Datensatz</p></li>
+<li><p><code>right_join()</code> erhält alle Daten aus dem zweiten Datensatz</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>pingu_inner <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(pinguGeschlecht, pinguJahr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining with `by = join_by(pinguIndex)`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>pingu_inner</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  pinguIndex    sex year
+1          1   male 2007
+2          2 female 2007
+3          3 female 2007
+4          5 female 2007
+5          6   male 2007
+6          7 female 2007
+7          8   male 2007</code></pre>
+</div>
+</div>
+<ul>
+<li><p>Durch <code>inner_join()</code> ist ein Wert in <code>year</code> ausgeschlossen worden, der zuvor aufgrund von NA in der Variable <code>sex</code> aus dem ersten Datensatz gelöscht worden war.</p></li>
+<li><p>Mit <code>full_join()</code> oder <code>right_join()</code> hätte man in dem Fall alle Daten erhalten.</p></li>
+</ul>
+<div style="background-color: #7FFFD4; color: darkviolet; border-radius: 8px; padding: 10px;">
+<p><svg aria-hidden="true" role="img" viewbox="0 0 384 512" style="height:1em;width:0.75em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M297.2 248.9C311.6 228.3 320 203.2 320 176c0-70.7-57.3-128-128-128S64 105.3 64 176c0 27.2 8.4 52.3 22.8 72.9c3.7 5.3 8.1 11.3 12.8 17.7l0 0c12.9 17.7 28.3 38.9 39.8 59.8c10.4 19 15.7 38.8 18.3 57.5H109c-2.2-12-5.9-23.7-11.8-34.5c-9.9-18-22.2-34.9-34.5-51.8l0 0 0 0c-5.2-7.1-10.4-14.2-15.4-21.4C27.6 247.9 16 213.3 16 176C16 78.8 94.8 0 192 0s176 78.8 176 176c0 37.3-11.6 71.9-31.4 100.3c-5 7.2-10.2 14.3-15.4 21.4l0 0 0 0c-12.3 16.8-24.6 33.7-34.5 51.8c-5.9 10.8-9.6 22.5-11.8 34.5H226.4c2.6-18.7 7.9-38.6 18.3-57.5c11.5-20.9 26.9-42.1 39.8-59.8l0 0 0 0 0 0c4.7-6.4 9-12.4 12.7-17.7zM192 128c-26.5 0-48 21.5-48 48c0 8.8-7.2 16-16 16s-16-7.2-16-16c0-44.2 35.8-80 80-80c8.8 0 16 7.2 16 16s-7.2 16-16 16zm0 384c-44.2 0-80-35.8-80-80V416H272v16c0 44.2-35.8 80-80 80z"></path></svg> <strong>Wichtig!</strong></p>
+<p>Überlege beim Anwenden von <code>join()</code>-Methoden immer genau, was du damit bezweckst und welche Daten du nicht verlieren möchtest. So kannst du böse Überraschungen vermeiden.</p>
 </div>
 
 

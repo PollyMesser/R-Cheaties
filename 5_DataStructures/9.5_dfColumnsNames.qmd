@@ -1,0 +1,73 @@
+---
+title: "Spalten - Namen in Data Frame"
+author: "Claudia Spannbauer"
+editor: visual
+---
+
+## Spalten in einem Data Frame nach ihren Namen auswählen
+
+-   Wir nutzen wieder die ersten 5 Zeilen aus dem Pinguin Datensatz:
+
+```{r}
+#| message: FALSE
+library(palmerpenguins)
+
+data("penguins")
+pinguine <- penguins |>
+  head(5)
+pinguine
+```
+
+## dplyr
+
+-   Nutze `select()` aus dem `dplyr` Paket mit den Spaltennamen:
+
+```{r}
+#| message=FALSE
+library(dplyr)
+
+pinguine |>
+  select(species, island)
+```
+
+## List expression
+
+-   Auswahl mit dem Namen funktioniert auch mit List expressions.
+
+### Einzelne Spalte
+
+-   Nutze doppelte Klammern oder den \$-Operator:, um einen Vektor zu bekommen:
+
+```{r}
+pinguine[["species"]]
+```
+
+```{r}
+pinguine$species
+```
+
+-   Nutze einfache Klammern, um ein Tibble mit einer Spalte zu bekommen:
+
+```{r}
+pinguine["species"]
+```
+
+### Mehrere Spalten
+
+```{r}
+pinguine[c("species", "island")]
+```
+
+## Matrix Style
+
+### Einzelne Spalte
+
+```{r}
+pinguine[, "species"]
+```
+
+### Mehrere Spalten
+
+```{r}
+pinguine[, c("species", "island")]
+```

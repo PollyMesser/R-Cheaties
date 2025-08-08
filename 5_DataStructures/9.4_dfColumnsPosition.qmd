@@ -1,0 +1,84 @@
+---
+title: "Spalten - Position in Data Frame"
+author: "Claudia Spannbauer"
+editor: visual
+---
+
+## Spalten anhand ihrer Position im Data Frame auswählen
+
+-   Nutze die `select()` Funktion aus dem `dplyr` Paket
+
+-   Alternativ: List expressions (base) nutzen
+
+Wir laden die ersten 5 Zeilen des Pinguin-Datensatzes aus dem Paket `palmerpenguins`:
+
+```{r}
+#| message: false
+library(palmerpenguins)
+data("penguins")
+pinguine <- head(penguins, 5)
+pinguine
+```
+
+## dplyr
+
+### Eine Spalte wählen
+
+-   Dann mit `select()` die 2. Spalte auswählen:
+
+```{r}
+#| message: false
+library(dplyr)
+pinguine |>
+  select(2)
+```
+
+### Mehrere Spalten
+
+```{r}
+pinguine |>
+  select(1, 3, 4)
+```
+
+### Eine Spanne von Spalten auswählen
+
+```{r}
+pinguine |>
+  select(2:5)
+```
+
+## List expression
+
+### Eine Spalte
+
+-   Die Nutzung der doppelten Klammern führt zur Ausgabe eines Vektors:
+
+```{r}
+pinguine[[2]]
+```
+
+### Mehrere Spalten
+
+-   Einfache Klammern führen zur Ausgabe eines Tibbles und können für die Auswahl von einer oder mehreren Spalten genutzt werden:
+
+```{r}
+pinguine[2]
+```
+
+```{r}
+pinguine[c(2, 4)]
+```
+
+## Matrix-Style
+
+-   Die Auswahl von Spalten kann auch im Matrix-Style stattfinden:
+
+```{r}
+pinguine[, 3]
+```
+
+-   Auch hier ist eine Mehrfachauswahl möglich:
+
+```{r}
+pinguine[, c(1, 3)]
+```

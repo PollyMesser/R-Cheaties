@@ -8,7 +8,7 @@
 
 <meta name="author" content="Claudia Spannbauer">
 
-<title>Data Frame aus Reihendaten – R-Cheaties</title>
+<title>Spalten - Namen in Data Frame – R-Cheaties</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,11 +148,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#anwendungsfall" id="toc-anwendungsfall" class="nav-link active" data-scroll-target="#anwendungsfall">Anwendungsfall:</a></li>
-  <li><a href="#lösung" id="toc-lösung" class="nav-link" data-scroll-target="#lösung">Lösung</a>
+  <li><a href="#spalten-in-einem-data-frame-nach-ihren-namen-auswählen" id="toc-spalten-in-einem-data-frame-nach-ihren-namen-auswählen" class="nav-link active" data-scroll-target="#spalten-in-einem-data-frame-nach-ihren-namen-auswählen">Spalten in einem Data Frame nach ihren Namen auswählen</a></li>
+  <li><a href="#dplyr" id="toc-dplyr" class="nav-link" data-scroll-target="#dplyr">dplyr</a></li>
+  <li><a href="#list-expression" id="toc-list-expression" class="nav-link" data-scroll-target="#list-expression">List expression</a>
   <ul class="collapse">
-  <li><a href="#reihen-in-einer-liste" id="toc-reihen-in-einer-liste" class="nav-link" data-scroll-target="#reihen-in-einer-liste">Reihen in einer Liste</a></li>
-  <li><a href="#jede-reihe-in-einer-liste" id="toc-jede-reihe-in-einer-liste" class="nav-link" data-scroll-target="#jede-reihe-in-einer-liste">Jede Reihe in einer Liste</a></li>
+  <li><a href="#einzelne-spalte" id="toc-einzelne-spalte" class="nav-link" data-scroll-target="#einzelne-spalte">Einzelne Spalte</a></li>
+  <li><a href="#mehrere-spalten" id="toc-mehrere-spalten" class="nav-link" data-scroll-target="#mehrere-spalten">Mehrere Spalten</a></li>
+  </ul></li>
+  <li><a href="#matrix-style" id="toc-matrix-style" class="nav-link" data-scroll-target="#matrix-style">Matrix Style</a>
+  <ul class="collapse">
+  <li><a href="#einzelne-spalte-1" id="toc-einzelne-spalte-1" class="nav-link" data-scroll-target="#einzelne-spalte-1">Einzelne Spalte</a></li>
+  <li><a href="#mehrere-spalten-1" id="toc-mehrere-spalten-1" class="nav-link" data-scroll-target="#mehrere-spalten-1">Mehrere Spalten</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -162,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Frame aus Reihendaten</h1>
+<h1 class="title">Spalten - Namen in Data Frame</h1>
 </div>
 
 
@@ -185,79 +191,142 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="anwendungsfall" class="level2">
-<h2 class="anchored" data-anchor-id="anwendungsfall">Anwendungsfall:</h2>
+<section id="spalten-in-einem-data-frame-nach-ihren-namen-auswählen" class="level2">
+<h2 class="anchored" data-anchor-id="spalten-in-einem-data-frame-nach-ihren-namen-auswählen">Spalten in einem Data Frame nach ihren Namen auswählen</h2>
 <ul>
-<li>Daten sind in Reihen / Fällen organisiert und sollen als Data Frame zusammengeführt werden</li>
-</ul>
-</section>
-<section id="lösung" class="level2">
-<h2 class="anchored" data-anchor-id="lösung">Lösung</h2>
-<ul>
-<li><p>Speichere jede Reihe in einen 1-Reihen Data Frame.</p></li>
-<li><p>Nutze <code>rbind()</code> aus dem Paket <code>dplyr</code>, um die Reihen zusammenzuführen.</p></li>
+<li>Wir nutzen wieder die ersten 5 Zeilen aus dem Pinguin Datensatz:</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>
-Attache Paket: 'dplyr'</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Die folgenden Objekte sind maskiert von 'package:stats':
-
-    filter, lag</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>Die folgenden Objekte sind maskiert von 'package:base':
-
-    intersect, setdiff, setequal, union</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r1 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="st">"X"</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>r2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="st">"Y"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>r3 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">6</span>, <span class="at">c =</span> <span class="st">"Z"</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(r1, r2, r3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"penguins"</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>pinguine <span class="ot">&lt;-</span> penguins <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>pinguine</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  a b c
-1 1 2 X
-2 3 4 Y
-3 5 6 Z</code></pre>
-</div>
-</div>
-<section id="reihen-in-einer-liste" class="level3">
-<h3 class="anchored" data-anchor-id="reihen-in-einer-liste">Reihen in einer Liste</h3>
-<ul>
-<li>Bei einer großen Anzahl von Reihen sind diese oft in Listen gespeichert.</li>
-<li>Nutze <code>bind_rows()</code> aus <code>dplyr</code>.</li>
-</ul>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>list.of.rows <span class="ot">&lt;-</span> <span class="fu">list</span>(r1, r2, r3)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(list.of.rows)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>  a b c
-1 1 2 X
-2 3 4 Y
-3 5 6 Z</code></pre>
+<pre><code># A tibble: 5 × 8
+  species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+  &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+1 Adelie  Torgersen           39.1          18.7               181        3750
+2 Adelie  Torgersen           39.5          17.4               186        3800
+3 Adelie  Torgersen           40.3          18                 195        3250
+4 Adelie  Torgersen           NA            NA                  NA          NA
+5 Adelie  Torgersen           36.7          19.3               193        3450
+# ℹ 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
 </div>
 </div>
 </section>
-<section id="jede-reihe-in-einer-liste" class="level3">
-<h3 class="anchored" data-anchor-id="jede-reihe-in-einer-liste">Jede Reihe in einer Liste</h3>
+<section id="dplyr" class="level2">
+<h2 class="anchored" data-anchor-id="dplyr">dplyr</h2>
+<ul>
+<li>Nutze <code>select()</code> aus dem <code>dplyr</code> Paket mit den Spaltennamen:</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>l1 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">1</span>, <span class="at">b =</span> <span class="dv">2</span>, <span class="at">c =</span> <span class="st">"X"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>l2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">3</span>, <span class="at">b =</span> <span class="dv">4</span>, <span class="at">c =</span> <span class="st">"Y"</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>l3 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">a =</span> <span class="dv">5</span>, <span class="at">b =</span> <span class="dv">6</span>, <span class="at">c =</span> <span class="st">"Z"</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>list.of.lists <span class="ot">&lt;-</span> <span class="fu">list</span>(l1, l2, l3)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="fu">bind_rows</span>(list.of.lists)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>pinguine <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species, island)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 3
-      a     b c    
-  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
-1     1     2 X    
-2     3     4 Y    
-3     5     6 Z    </code></pre>
+<pre><code># A tibble: 5 × 2
+  species island   
+  &lt;fct&gt;   &lt;fct&gt;    
+1 Adelie  Torgersen
+2 Adelie  Torgersen
+3 Adelie  Torgersen
+4 Adelie  Torgersen
+5 Adelie  Torgersen</code></pre>
+</div>
+</div>
+</section>
+<section id="list-expression" class="level2">
+<h2 class="anchored" data-anchor-id="list-expression">List expression</h2>
+<ul>
+<li>Auswahl mit dem Namen funktioniert auch mit List expressions.</li>
+</ul>
+<section id="einzelne-spalte" class="level3">
+<h3 class="anchored" data-anchor-id="einzelne-spalte">Einzelne Spalte</h3>
+<ul>
+<li>Nutze doppelte Klammern oder den $-Operator:, um einen Vektor zu bekommen:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>pinguine[[<span class="st">"species"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Adelie Adelie Adelie Adelie Adelie
+Levels: Adelie Chinstrap Gentoo</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pinguine<span class="sc">$</span>species</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] Adelie Adelie Adelie Adelie Adelie
+Levels: Adelie Chinstrap Gentoo</code></pre>
+</div>
+</div>
+<ul>
+<li>Nutze einfache Klammern, um ein Tibble mit einer Spalte zu bekommen:</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pinguine[<span class="st">"species"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 1
+  species
+  &lt;fct&gt;  
+1 Adelie 
+2 Adelie 
+3 Adelie 
+4 Adelie 
+5 Adelie </code></pre>
+</div>
+</div>
+</section>
+<section id="mehrere-spalten" class="level3">
+<h3 class="anchored" data-anchor-id="mehrere-spalten">Mehrere Spalten</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pinguine[<span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"island"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  species island   
+  &lt;fct&gt;   &lt;fct&gt;    
+1 Adelie  Torgersen
+2 Adelie  Torgersen
+3 Adelie  Torgersen
+4 Adelie  Torgersen
+5 Adelie  Torgersen</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="matrix-style" class="level2">
+<h2 class="anchored" data-anchor-id="matrix-style">Matrix Style</h2>
+<section id="einzelne-spalte-1" class="level3">
+<h3 class="anchored" data-anchor-id="einzelne-spalte-1">Einzelne Spalte</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>pinguine[, <span class="st">"species"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 1
+  species
+  &lt;fct&gt;  
+1 Adelie 
+2 Adelie 
+3 Adelie 
+4 Adelie 
+5 Adelie </code></pre>
+</div>
+</div>
+</section>
+<section id="mehrere-spalten-1" class="level3">
+<h3 class="anchored" data-anchor-id="mehrere-spalten-1">Mehrere Spalten</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>pinguine[, <span class="fu">c</span>(<span class="st">"species"</span>, <span class="st">"island"</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 2
+  species island   
+  &lt;fct&gt;   &lt;fct&gt;    
+1 Adelie  Torgersen
+2 Adelie  Torgersen
+3 Adelie  Torgersen
+4 Adelie  Torgersen
+5 Adelie  Torgersen</code></pre>
 </div>
 </div>
 

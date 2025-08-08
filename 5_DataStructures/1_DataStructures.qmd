@@ -1,9 +1,14 @@
 ---
-title: "1 data Structures"
+title: "1 Datenstrukturen"
 author: "Claudia Spannbauer"
 format: html
 editor: visual
 ---
+
+```{r}
+#| echo: false
+library(fontawesome)
+```
 
 # Datenstrukturen in R - Übersicht
 
@@ -219,6 +224,10 @@ summary(df)         # Zusammenfassung
 -   [Data Frame aus Spaltendaten](9.1_dataFrameFromColumns.qmd)
 -   [Data Frame aus Reihendaten](9.2_dataFrameFromRows.qmd)
 -   [Reihen an Data Frame anfügen](9.3_rowsToDataFrame.qmd)
+-   [Data Frame Spalten anhand ihrer Position auswählen](9.4_dfColumnsPosition.qmd)
+-   [Data Frame Spalten nach Namen auswählen](9.5_dfColumnsNames.qmd)
+-   [Fehlende Werte (NA) aus Data Frame entfernen](9.6_dfRemoveNAs.qmd)
+-   [Zwei Data Frames kombinieren](9.7_dfCombine.qmd)
 
 ## 10. Tibbles
 
