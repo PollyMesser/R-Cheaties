@@ -7,4 +7,42 @@ editor: visual
 
 ## Anwendungsfall:
 
--   
+-   Es liegt eine oder mehrere Reihen Daten vor, die an einen Data Frame angeheftet werden sollen.
+
+## Lösung:
+
+-   Erstelle einen neuen, temporären Data Frame, der die neuen Reihen enthält.
+
+-   Füge den Data Frame an den originalen Data Frame, indem du die Funktion `rbind()`\` verwendest.
+
+Angenommen, wir haben einen Data Frame mit Pokemon-Daten:
+
+```{r}
+library(readr)
+pokemon <- read.csv("pokemon.csv", encoding = "UTF-8")
+head(pokemon) # erste sechs Reihen ausgeben
+```
+
+Wir wollen eine neue Reihe anfügen:
+
+```{r}
+pokeNeu <- data.frame(
+  Name = "Zamazenta",
+  Typ = "Kampf/Stahl",
+  Region = "Galar",
+  Level = 70,
+  Kraftpunkte = 362,
+  ASCII_Sprite = "🛡️🐺(ಠ_ಠ)🐺🛡️"
+)
+pokeNeu
+```
+
+Jetzt verwenden wir die `rbind()` Funktion, um den Data Frame an den existierenden dranzuhängen:
+
+```{r}
+rbind(pokemon, pokeNeu)
+```
+
+```{r}
+
+```

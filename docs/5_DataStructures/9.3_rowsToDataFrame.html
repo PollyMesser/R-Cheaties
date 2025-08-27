@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -115,6 +149,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#anwendungsfall" id="toc-anwendungsfall" class="nav-link active" data-scroll-target="#anwendungsfall">Anwendungsfall:</a></li>
+  <li><a href="#lösung" id="toc-lösung" class="nav-link" data-scroll-target="#lösung">Lösung:</a></li>
   </ul>
 </nav>
     </div>
@@ -149,8 +184,80 @@ ul.task-list li input[type="checkbox"] {
 <section id="anwendungsfall" class="level2">
 <h2 class="anchored" data-anchor-id="anwendungsfall">Anwendungsfall:</h2>
 <ul>
-<li></li>
+<li>Es liegt eine oder mehrere Reihen Daten vor, die an einen Data Frame angeheftet werden sollen.</li>
 </ul>
+</section>
+<section id="lösung" class="level2">
+<h2 class="anchored" data-anchor-id="lösung">Lösung:</h2>
+<ul>
+<li><p>Erstelle einen neuen, temporären Data Frame, der die neuen Reihen enthält.</p></li>
+<li><p>Füge den Data Frame an den originalen Data Frame, indem du die Funktion <code>rbind()</code>` verwendest.</p></li>
+</ul>
+<p>Angenommen, wir haben einen Data Frame mit Pokemon-Daten:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pokemon <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"pokemon.csv"</span>, <span class="at">encoding =</span> <span class="st">"UTF-8"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(pokemon) <span class="co"># erste sechs Reihen ausgeben</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Name          Typ Region Level Kraftpunkte ASCII_Sprite
+1   Pikachu      Elektro  Kanto    25         274    (⚡ᵔᴥᵔ⚡)
+2 Charizard   Feuer/Flug  Kanto    36         360   🔥(╯°□°）╯🔥
+3 Blastoise       Wasser  Kanto    36         362    💧ᕕ( ᐛ )ᕗ💧
+4  Venusaur Pflanze/Gift  Kanto    32         364      🌸(◕‿◕)🌿
+5    Mewtwo       Psycho  Kanto    70         416    ✨(ಠ_ಠ)✨
+6       Mew       Psycho  Kanto   100         404    ✨(◕ω◕)✨</code></pre>
+</div>
+</div>
+<p>Wir wollen eine neue Reihe anfügen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pokeNeu <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">Name =</span> <span class="st">"Zamazenta"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Typ =</span> <span class="st">"Kampf/Stahl"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Region =</span> <span class="st">"Galar"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Level =</span> <span class="dv">70</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Kraftpunkte =</span> <span class="dv">362</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">ASCII_Sprite =</span> <span class="st">"🛡️🐺(ಠ_ಠ)🐺🛡️"</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pokeNeu</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Name         Typ Region Level Kraftpunkte ASCII_Sprite
+1 Zamazenta Kampf/Stahl  Galar    70         362    🛡️🐺(ಠ_ಠ)🐺🛡️</code></pre>
+</div>
+</div>
+<p>Jetzt verwenden wir die <code>rbind()</code> Funktion, um den Data Frame an den existierenden dranzuhängen:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(pokemon, pokeNeu)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        Name            Typ Region Level Kraftpunkte   ASCII_Sprite
+1    Pikachu        Elektro  Kanto    25         274      (⚡ᵔᴥᵔ⚡)
+2  Charizard     Feuer/Flug  Kanto    36         360     🔥(╯°□°）╯🔥
+3  Blastoise         Wasser  Kanto    36         362      💧ᕕ( ᐛ )ᕗ💧
+4   Venusaur   Pflanze/Gift  Kanto    32         364        🌸(◕‿◕)🌿
+5     Mewtwo         Psycho  Kanto    70         416      ✨(ಠ_ಠ)✨
+6        Mew         Psycho  Kanto   100         404      ✨(◕ω◕)✨
+7      Lugia    Psycho/Flug  Johto    45         461      🌊(￣^￣)🌊
+8      Ho-Oh     Feuer/Flug  Johto    45         461 🔥〈(￣︶￣)〉🔥
+9     Celebi Psycho/Pflanze  Johto   100         404        🍃(◠‿◠)🍃
+10  Rayquaza    Drache/Flug  Hoenn    50         461      🐉═══════🐉
+11    Kyogre         Wasser  Hoenn    45         383    🌊≋≋(◉◡◉)≋≋🌊
+12   Groudon          Boden  Hoenn    45         383       ⛰️(ಠ益ಠ)⛰️
+13    Dialga   Stahl/Drache Sinnoh    47         461      ⚙️🐲(◉_◉)🐲⚙️
+14    Palkia  Wasser/Drache Sinnoh    47         461      💎🐲(⊙_⊙)🐲💎
+15  Giratina   Geist/Drache Sinnoh    47         461      👻🐲(¬_¬)🐲👻
+16    Arceus         Normal Sinnoh    80         493      ⭐(◉Θ◉)⭐
+17  Reshiram   Drache/Feuer Einall    50         461     🔥🐲(⌐■_■)🐲🔥
+18    Zekrom Drache/Elektro Einall    50         461    ⚡🐲(ಠ‿ಠ)🐲⚡
+19    Kyurem     Drache/Eis Einall    50         461     ❄️🐲(╯︵╰)🐲❄️
+20   Xerneas            Fee  Kalos    50         461    🦌✨(◕‿◕)✨🦌
+21   Yveltal   Unlicht/Flug  Kalos    50         461      🦅💀(ಠ_ಠ)💀🦅
+22   Zygarde   Drache/Boden  Kalos    50         486    🐍⬢⬡(◉_◉)⬡⬢🐍
+23  Solgaleo   Psycho/Stahl  Alola    55         461      ☀️🦁(◉◡◉)🦁☀️
+24    Lunala   Psycho/Geist  Alola    55         461      🌙🦇(◕‿◕)🦇🌙
+25  Necrozma         Psycho  Alola    50         461  💎✨(╬ಠ益ಠ)✨💎
+26    Zacian      Fee/Stahl  Galar    70         362      🗡️🐺(◕‿◕)🐺🗡️
+27 Zamazenta    Kampf/Stahl  Galar    70         362      🛡️🐺(ಠ_ಠ)🐺🛡️</code></pre>
+</div>
+</div>
 
 
 </section>

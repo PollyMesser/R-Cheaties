@@ -71,7 +71,6 @@ mods |>
   discard(filter_r2)
 ```
 
-
 ::: {#retainElement .note style="color:violet; font-weight: 600; background-color: paleturquoise; border-radius: 8px; padding: 20px;"}
 💫 Die Gegenfunktion von `discard()` ist `keep()`.
 
